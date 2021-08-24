@@ -7,6 +7,7 @@ import logging
 import time
 import sys
 import os
+import pickle
 connector =IQ_Option("ww.bingonemo@gmail.com","JF*#3C5va&_NDqy")
 connector.connect()
 '''----------------------------------------------------------------------------------------------'''
@@ -55,8 +56,13 @@ use_trail_stop=False
 auto_margin_call=True 
 use_token_for_commission=False 
 #----------------------------------------------------------------------------#
-def run():
+while True:
     try:
+        try:
+            number = pickle.load(open('number.pkl', 'rb'))
+        except:
+            number = (0,0)
+            pickle.dump(number, open('number.pkl', 'bw'))
         logger.info('while #1')
         while True:
             if connector.check_connect() == False:
@@ -68,30 +74,29 @@ def run():
         logger.info(str(balance)+'$')
         ALL_Asset=connector.get_all_open_time()
 
+        open_digits = [x for x in ALL_Asset[instrument_type] if ALL_Asset[instrument_type][x].get('open')]
 
-
+        for i in range(5):
         
+            checklist = []
+            for f in open_digits:
+                check, id = connector.buy_digital_spot(f, 1, 'call', 1)
+                if check == True:
+                    checklist.append(id)
 
+            for chl in checklist:
+                while True:
+                    check, win = connector.check_win_digital_v2(chl)
+                    if check == True:
+                        number = (number[0] + (win > 0), number[1] + 1)
+                        break
 
-
-        
-        print(ALL_Asset[instrument_type])
-
-                  
-
+        pickle.dump(number, open('number.pkl', 'bw'))
+        logger.info(number)
     except Exception as e:
-
         exc_type, exc_obj, exc_tb = sys.exc_info()
-
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-
-        Internet_protocols.email(str(e), subj='Error')
-
         logger.exception(str(e))
-
         logger.exception([exc_type, fname, exc_tb.tb_lineno])
-
         raise Exception(str(e))
-
         time.sleep(60*3)
-
