@@ -8,6 +8,7 @@ import time
 import sys
 import os
 import pickle
+import random
 connector =IQ_Option("ww.bingonemo@gmail.com","JF*#3C5va&_NDqy")
 connector.connect()
 '''----------------------------------------------------------------------------------------------'''
@@ -80,7 +81,7 @@ while True:
         
             checklist = []
             for f in open_digits:
-                check, id = connector.buy_digital_spot(f, 1, 'call', 1)
+                check, id = connector.buy_digital_spot(f, 1, random.choice(['call','put']), 1)
                 if check == True:
                     checklist.append(id)
 
