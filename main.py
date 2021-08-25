@@ -98,5 +98,4 @@ while True:
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         logger.exception(str(e))
         logger.exception([exc_type, fname, exc_tb.tb_lineno])
-        raise Exception(str(e))
         time.sleep(60*3)
