@@ -120,3 +120,165 @@ TypeError: unhashable type: 'dict'
 2021-08-24 22:00:05,533 - __main__ - INFO - while #1
 2021-08-24 22:00:05,533 - __main__ - INFO - unwhile #1
 2021-08-24 22:00:05,813 - __main__ - INFO - 538871.19$
+2021-08-27 21:30:04,706 - __main__ - INFO - while #1
+2021-08-27 21:30:04,706 - __main__ - INFO - unwhile #1
+2021-08-27 21:30:05,192 - __main__ - INFO - 540018.64$
+2021-08-27 21:40:39,512 - __main__ - INFO - while #1
+2021-08-27 21:40:39,512 - __main__ - INFO - unwhile #1
+2021-08-27 21:40:39,902 - __main__ - INFO - 540018.25$
+2021-08-27 21:40:44,703 - __main__ - ERROR - 'int' object has no attribute 'get'
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 86, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 86, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+AttributeError: 'int' object has no attribute 'get'
+2021-08-27 21:40:44,703 - __main__ - ERROR - [<class 'AttributeError'>, 'main.py', 86]
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 86, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 86, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+AttributeError: 'int' object has no attribute 'get'
+2021-08-27 21:41:43,073 - __main__ - INFO - while #1
+2021-08-27 21:41:43,073 - __main__ - INFO - unwhile #1
+2021-08-27 21:41:43,622 - __main__ - INFO - 540018.25$
+2021-08-27 21:41:49,155 - __main__ - ERROR - 'int' object has no attribute 'get'
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+AttributeError: 'int' object has no attribute 'get'
+2021-08-27 21:41:49,157 - __main__ - ERROR - [<class 'AttributeError'>, 'main.py', 87]
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+AttributeError: 'int' object has no attribute 'get'
+2021-08-27 21:42:23,147 - __main__ - INFO - while #1
+2021-08-27 21:42:23,149 - __main__ - INFO - unwhile #1
+2021-08-27 21:42:23,812 - __main__ - INFO - 540018.25$
+2021-08-27 21:42:28,753 - __main__ - ERROR - 'int' object has no attribute 'get'
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+AttributeError: 'int' object has no attribute 'get'
+2021-08-27 21:42:28,762 - __main__ - ERROR - [<class 'AttributeError'>, 'main.py', 87]
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+AttributeError: 'int' object has no attribute 'get'
+2021-08-27 21:43:32,990 - __main__ - INFO - while #1
+2021-08-27 21:43:32,991 - __main__ - INFO - unwhile #1
+2021-08-27 21:43:33,232 - __main__ - INFO - 540018.25$
+2021-08-27 21:43:39,159 - __main__ - ERROR - 'int' object has no attribute 'get'
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+AttributeError: 'int' object has no attribute 'get'
+2021-08-27 21:43:39,162 - __main__ - ERROR - [<class 'AttributeError'>, 'main.py', 87]
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+AttributeError: 'int' object has no attribute 'get'
+2021-08-27 21:44:05,403 - __main__ - INFO - while #1
+2021-08-27 21:44:05,405 - __main__ - INFO - unwhile #1
+2021-08-27 21:44:05,553 - __main__ - INFO - 540018.25$
+2021-08-27 21:44:13,660 - __main__ - ERROR - 'dict_values' object is not subscriptable
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 86, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 86, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+TypeError: 'dict_values' object is not subscriptable
+2021-08-27 21:44:13,662 - __main__ - ERROR - [<class 'TypeError'>, 'main.py', 86]
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 86, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 86, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+TypeError: 'dict_values' object is not subscriptable
+2021-08-27 21:44:52,936 - __main__ - INFO - while #1
+2021-08-27 21:44:52,937 - __main__ - INFO - unwhile #1
+2021-08-27 21:44:53,150 - __main__ - INFO - 540018.25$
+2021-08-27 21:44:58,135 - __main__ - ERROR - 'str' object is not callable
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 86, in <module>
+    print(type(candles))
+TypeError: 'str' object is not callable
+2021-08-27 21:44:58,136 - __main__ - ERROR - [<class 'TypeError'>, 'main.py', 86]
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 86, in <module>
+    print(type(candles))
+TypeError: 'str' object is not callable
+2021-08-27 21:46:20,832 - __main__ - INFO - while #1
+2021-08-27 21:46:20,832 - __main__ - INFO - unwhile #1
+2021-08-27 21:46:21,312 - __main__ - INFO - 540018.25$
+2021-08-27 21:46:26,503 - __main__ - ERROR - 'dict_values' object is not subscriptable
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+TypeError: 'dict_values' object is not subscriptable
+2021-08-27 21:46:26,507 - __main__ - ERROR - [<class 'TypeError'>, 'main.py', 87]
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <module>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+  File "c:\Users\User\Documents\rep\Futures\main.py", line 87, in <listcomp>
+    s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+TypeError: 'dict_values' object is not subscriptable
+2021-08-27 21:46:56,742 - __main__ - INFO - while #1
+2021-08-27 21:46:56,742 - __main__ - INFO - unwhile #1
+2021-08-27 21:46:57,049 - __main__ - INFO - 540018.25$
+2021-08-27 21:47:56,862 - __main__ - INFO - while #1
+2021-08-27 21:47:56,863 - __main__ - INFO - unwhile #1
+2021-08-27 21:47:57,002 - __main__ - INFO - 540013.25$
+2021-08-27 21:53:06,292 - __main__ - INFO - [(False, 232), (False, 333), (False, 197), (False, 94), (True, 578), (False, 224), (False, 365), (True, 242), (False, 96), (True, 575), (False, 360), (False, 247), (True, 82), (False, 9), (True, 509), (True, 418), (True, 5), (False, 16), (False, 5), (False, 513), (False, 286), (False, 169), (False, 78), (False, 0), (True, 479)]
+2021-08-27 21:53:06,312 - __main__ - INFO - while #1
+2021-08-27 21:53:06,316 - __main__ - INFO - unwhile #1
+2021-08-27 21:53:09,842 - __main__ - INFO - 540004.25$
+2021-08-27 22:00:04,731 - __main__ - INFO - [(False, 232), (False, 333), (False, 197), (False, 94), (True, 578), (False, 224), (False, 365), (True, 242), (False, 96), (True, 575), (False, 360), (False, 247), (True, 82), (False, 9), (True, 509), (True, 418), (True, 5), (False, 16), (False, 5), (False, 513), (False, 286), (False, 169), (False, 78), (False, 0), (True, 479), (True, 379), (False, 57), (True, 509), (False, 507), (False, 119), (False, 147), (True, 503), (False, 117), (True, 546), (False, 137), (False, 206), (False, 121), (False, 321), (False, 172), (False, 246), (False, 209), (True, 476), (False, 305), (False, 32), (True, 548), (True, 539), (False, 465), (True, 503), (True, 37)]
+2021-08-27 22:00:04,747 - __main__ - INFO - while #1
+2021-08-27 22:00:04,749 - __main__ - INFO - unwhile #1
+2021-08-27 22:00:04,916 - __main__ - INFO - 539994.66$
+2021-08-27 22:05:02,556 - __main__ - INFO - [(False, 232), (False, 333), (False, 197), (False, 94), (True, 578), (False, 224), (False, 365), (True, 242), (False, 96), (True, 575), (False, 360), (False, 247), (True, 82), (False, 9), (True, 509), (True, 418), (True, 5), (False, 16), (False, 5), (False, 513), (False, 286), (False, 169), (False, 78), (False, 0), (True, 479), (True, 379), (False, 57), (True, 509), (False, 507), (False, 119), (False, 147), (True, 503), (False, 117), (True, 546), (False, 137), (False, 206), (False, 121), (False, 321), (False, 172), (False, 246), (False, 209), (True, 476), (False, 305), (False, 32), (True, 548), (True, 539), (False, 465), (True, 503), (True, 37), (False, 571), (True, 269), (True, 467), (True, 376), (False, 370), (False, 535), (True, 598), (False, 440), (True, 586), (True, 576), (False, 175), (True, 523), (False, 510), (False, 137), (False, 529)]
+2021-08-27 22:05:02,561 - __main__ - INFO - while #1
+2021-08-27 22:05:02,561 - __main__ - INFO - unwhile #1
+2021-08-27 22:05:02,771 - __main__ - INFO - 539990.87$
+2021-08-27 22:10:02,044 - __main__ - INFO - [(False, 232), (False, 333), (False, 197), (False, 94), (True, 578), (False, 224), (False, 365), (True, 242), (False, 96), (True, 575), (False, 360), (False, 247), (True, 82), (False, 9), (True, 509), (True, 418), (True, 5), (False, 16), (False, 5), (False, 513), (False, 286), (False, 169), (False, 78), (False, 0), (True, 479), (True, 379), (False, 57), (True, 509), (False, 507), (False, 119), (False, 147), (True, 503), (False, 117), (True, 546), (False, 137), (False, 206), (False, 121), (False, 321), (False, 172), (False, 246), (False, 209), (True, 476), (False, 305), (False, 32), (True, 548), (True, 539), (False, 465), (True, 503), (True, 37), (False, 571), (True, 269), (True, 467), (True, 376), (False, 370), (False, 535), (True, 598), (False, 440), (True, 586), (True, 576), (False, 175), (True, 523), (False, 510), (False, 137), (False, 529), (True, 564), (False, 87), (True, 585), (False, 487), (False, 66), (False, 518), (True, 562), (False, 75), (True, 507), (False, 527), (True, 2), (True, 464), (False, 579), (False, 18), (True, 404)]
+2021-08-27 22:10:02,056 - __main__ - INFO - while #1
+2021-08-27 22:10:02,056 - __main__ - INFO - unwhile #1
+2021-08-27 22:10:02,241 - __main__ - INFO - 539987.07$
+2021-08-27 22:15:03,371 - __main__ - INFO - [(False, 232), (False, 333), (False, 197), (False, 94), (True, 578), (False, 224), (False, 365), (True, 242), (False, 96), (True, 575), (False, 360), (False, 247), (True, 82), (False, 9), (True, 509), (True, 418), (True, 5), (False, 16), (False, 5), (False, 513), (False, 286), (False, 169), (False, 78), (False, 0), (True, 479), (True, 379), (False, 57), (True, 509), (False, 507), (False, 119), (False, 147), (True, 503), (False, 117), (True, 546), (False, 137), (False, 206), (False, 121), (False, 321), (False, 172), (False, 246), (False, 209), (True, 476), (False, 305), (False, 32), (True, 548), (True, 539), (False, 465), (True, 503), (True, 37), (False, 571), (True, 269), (True, 467), (True, 376), (False, 370), (False, 535), (True, 598), (False, 440), (True, 586), (True, 576), (False, 175), (True, 523), (False, 510), (False, 137), (False, 529), (True, 564), (False, 87), (True, 585), (False, 487), (False, 66), (False, 518), (True, 562), (False, 75), (True, 507), (False, 527), (True, 2), (True, 464), (False, 579), (False, 18), (True, 404), (True, 404), (True, 34), (True, 312), (True, 587), (False, 52), (True, 520), (False, 581), (True, 27), (False, 374), (False, 598), (True, 85), (True, 560), (True, 591), (False, 314), (False, 343)]
+2021-08-27 22:15:03,391 - __main__ - INFO - while #1
+2021-08-27 22:15:03,391 - __main__ - INFO - unwhile #1
+2021-08-27 22:15:03,621 - __main__ - INFO - 539986.48$
+2021-08-27 22:20:06,136 - __main__ - INFO - [(False, 232), (False, 333), (False, 197), (False, 94), (True, 578), (False, 224), (False, 365), (True, 242), (False, 96), (True, 575), (False, 360), (False, 247), (True, 82), (False, 9), (True, 509), (True, 418), (True, 5), (False, 16), (False, 5), (False, 513), (False, 286), (False, 169), (False, 78), (False, 0), (True, 479), (True, 379), (False, 57), (True, 509), (False, 507), (False, 119), (False, 147), (True, 503), (False, 117), (True, 546), (False, 137), (False, 206), (False, 121), (False, 321), (False, 172), (False, 246), (False, 209), (True, 476), (False, 305), (False, 32), (True, 548), (True, 539), (False, 465), (True, 503), (True, 37), (False, 571), (True, 269), (True, 467), (True, 376), (False, 370), (False, 535), (True, 598), (False, 440), (True, 586), (True, 576), (False, 175), (True, 523), (False, 510), (False, 137), (False, 529), (True, 564), (False, 87), (True, 585), (False, 487), (False, 66), (False, 518), (True, 562), (False, 75), (True, 507), (False, 527), (True, 2), (True, 464), (False, 579), (False, 18), (True, 404), (True, 404), (True, 34), (True, 312), (True, 587), (False, 52), (True, 520), (False, 581), (True, 27), (False, 374), (False, 598), (True, 85), (True, 560), (True, 591), (False, 314), (False, 343), (True, 587), (False, 380), (True, 300), (True, 252), (True, 320), (True, 489), (False, 531), (False, 359), (False, 305), (False, 252), (False, 334), (True, 242), (True, 283), (False, 262), (False, 205)]
+2021-08-27 22:20:06,151 - __main__ - INFO - while #1
+2021-08-27 22:20:06,151 - __main__ - INFO - unwhile #1
+2021-08-27 22:20:07,841 - __main__ - INFO - 539982.69$
+2021-08-27 22:25:03,221 - __main__ - INFO - [(False, 232), (False, 333), (False, 197), (False, 94), (True, 578), (False, 224), (False, 365), (True, 242), (False, 96), (True, 575), (False, 360), (False, 247), (True, 82), (False, 9), (True, 509), (True, 418), (True, 5), (False, 16), (False, 5), (False, 513), (False, 286), (False, 169), (False, 78), (False, 0), (True, 479), (True, 379), (False, 57), (True, 509), (False, 507), (False, 119), (False, 147), (True, 503), (False, 117), (True, 546), (False, 137), (False, 206), (False, 121), (False, 321), (False, 172), (False, 246), (False, 209), (True, 476), (False, 305), (False, 32), (True, 548), (True, 539), (False, 465), (True, 503), (True, 37), (False, 571), (True, 269), (True, 467), (True, 376), (False, 370), (False, 535), (True, 598), (False, 440), (True, 586), (True, 576), (False, 175), (True, 523), (False, 510), (False, 137), (False, 529), (True, 564), (False, 87), (True, 585), (False, 487), (False, 66), (False, 518), (True, 562), (False, 75), (True, 507), (False, 527), (True, 2), (True, 464), (False, 579), (False, 18), (True, 404), (True, 404), (True, 34), (True, 312), (True, 587), (False, 52), (True, 520), (False, 581), (True, 27), (False, 374), (False, 598), (True, 85), (True, 560), (True, 591), (False, 314), (False, 343), (True, 587), (False, 380), (True, 300), (True, 252), (True, 320), (True, 489), (False, 531), (False, 359), (False, 305), (False, 252), (False, 334), (True, 242), (True, 283), (False, 262), (False, 205), (True, 252), (False, 274), (True, 202), (False, 257), (True, 309), (False, 380), (False, 375), (True, 143), (True, 373), (True, 213), (False, 434), (True, 356), (False, 313), (False, 158), (False, 111)]
+2021-08-27 22:25:03,236 - __main__ - INFO - while #1
+2021-08-27 22:25:03,236 - __main__ - INFO - unwhile #1
+2021-08-27 22:25:03,460 - __main__ - INFO - 539978.9$
+2021-08-27 22:30:03,635 - __main__ - INFO - [(False, 232), (False, 333), (False, 197), (False, 94), (True, 578), (False, 224), (False, 365), (True, 242), (False, 96), (True, 575), (False, 360), (False, 247), (True, 82), (False, 9), (True, 509), (True, 418), (True, 5), (False, 16), (False, 5), (False, 513), (False, 286), (False, 169), (False, 78), (False, 0), (True, 479), (True, 379), (False, 57), (True, 509), (False, 507), (False, 119), (False, 147), (True, 503), (False, 117), (True, 546), (False, 137), (False, 206), (False, 121), (False, 321), (False, 172), (False, 246), (False, 209), (True, 476), (False, 305), (False, 32), (True, 548), (True, 539), (False, 465), (True, 503), (True, 37), (False, 571), (True, 269), (True, 467), (True, 376), (False, 370), (False, 535), (True, 598), (False, 440), (True, 586), (True, 576), (False, 175), (True, 523), (False, 510), (False, 137), (False, 529), (True, 564), (False, 87), (True, 585), (False, 487), (False, 66), (False, 518), (True, 562), (False, 75), (True, 507), (False, 527), (True, 2), (True, 464), (False, 579), (False, 18), (True, 404), (True, 404), (True, 34), (True, 312), (True, 587), (False, 52), (True, 520), (False, 581), (True, 27), (False, 374), (False, 598), (True, 85), (True, 560), (True, 591), (False, 314), (False, 343), (True, 587), (False, 380), (True, 300), (True, 252), (True, 320), (True, 489), (False, 531), (False, 359), (False, 305), (False, 252), (False, 334), (True, 242), (True, 283), (False, 262), (False, 205), (True, 252), (False, 274), (True, 202), (False, 257), (True, 309), (False, 380), (False, 375), (True, 143), (True, 373), (True, 213), (False, 434), (True, 356), (False, 313), (False, 158), (False, 111), (False, 313), (True, 455), (True, 293), (False, 289), (False, 107), (True, 11), (True, 112), (False, 401), (True, 270), (True, 107), (False, 411), (True, 5), (True, 201), (False, 465), (True, 239)]
+2021-08-27 22:30:03,645 - __main__ - INFO - while #1
+2021-08-27 22:30:03,645 - __main__ - INFO - unwhile #1
+2021-08-27 22:30:03,830 - __main__ - INFO - 539978.3$
+2021-08-27 22:59:54,775 - __main__ - INFO - while #1
+2021-08-27 22:59:54,775 - __main__ - INFO - unwhile #1
+2021-08-27 22:59:55,009 - __main__ - INFO - 539977.51$
+2021-08-27 23:21:55,975 - __main__ - INFO - while #1
+2021-08-27 23:21:55,976 - __main__ - INFO - unwhile #1
+2021-08-27 23:21:56,159 - __main__ - INFO - 539970.13$

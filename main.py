@@ -8,7 +8,6 @@ import time
 import sys
 import os
 import pickle
-import random
 connector =IQ_Option("ww.bingonemo@gmail.com","JF*#3C5va&_NDqy")
 connector.connect()
 '''----------------------------------------------------------------------------------------------'''
@@ -46,7 +45,7 @@ logger.addHandler(rotatingfile_handler)
 connector.change_balance("PRACTICE")
 instrument_type="digital"
 side="buy"
-type="market"
+type_market="market"
 limit_price=None 
 stop_price=None 
 stop_lose_kind=None 
@@ -60,10 +59,10 @@ use_token_for_commission=False
 while True:
     try:
         try:
-            number = pickle.load(open('number.pkl', 'rb'))
+            data = pickle.load(open('data.pkl', 'rb'))
         except:
-            number = (0,0)
-            pickle.dump(number, open('number.pkl', 'bw'))
+            data = []
+            pickle.dump(data, open('data.pkl', 'bw'))
         logger.info('while #1')
         while True:
             if connector.check_connect() == False:
@@ -81,19 +80,22 @@ while True:
         
             checklist = []
             for f in open_digits:
-                check, id = connector.buy_digital_spot(f, 1, random.choice(['call','put']), 1)
+                connector.start_candles_stream(f[:6], 5, 600)
+                candles = list(connector.get_realtime_candles(f[:6], 5).values())
+                s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+                check, id = connector.buy_digital_spot(f, 1, 'call', 1)
                 if check == True:
-                    checklist.append(id)
+                    checklist.append((id,s))
 
             for chl in checklist:
                 while True:
-                    check, win = connector.check_win_digital_v2(chl)
+                    check, win = connector.check_win_digital_v2(chl[0])
                     if check == True:
-                        number = (number[0] + (win > 0), number[1] + 1)
+                        data.append(((win > 0), chl[1]))
                         break
 
-        pickle.dump(number, open('number.pkl', 'bw'))
-        logger.info(number)
+        pickle.dump(data, open('data.pkl', 'bw'))
+        logger.info(data)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
