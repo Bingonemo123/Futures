@@ -93,7 +93,7 @@ while True:
                     if check == True:
                         data.append(((win > 0), chl[1]))
                         break
-
+            logger.info(checklist)
         pickle.dump(data, open('data.pkl', 'bw'))
         logger.info(len(data))
     except Exception as e:
