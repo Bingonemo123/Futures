@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit as st
 
 
-pseudo_data = [ (random.randint(0, 600), random.choice((True, False))) for k in range(1000000)]    
+pseudo_data = [ (random.choice((True, False)), random.randint(0, 600)) for k in range(1000000)]    
 
 
 
