@@ -5,7 +5,9 @@ import pickle
 import math 
 import sympy
 real_data = pickle.load(open("data.pkl", 'rb'))   
-default_width = 25
+
+st.set_page_config(page_title="Real statistics",layout='wide')
+default_width = None
 count_data = {}
 for d in real_data:
     count_data[d[1]] = count_data.setdefault(d[1], 0) +  1
@@ -59,8 +61,6 @@ st.dataframe(pd_pd, width=default_width)
 
 '''---------------------------------------------------------------------------------------'''
 
-pd_cpd = pd.DataFrame(None, index=range(21), columns=range(30))
-
 def Pdf(x, y):
     r = sympy.symbols('r')
     h = True_data.get(x*30 + y, 0)
@@ -79,11 +79,13 @@ def Pdf(x, y):
     return fs + ss
 
 st.write("Percentages of Percentages")
-st.dataframe(pd_cpd, width=default_width)
+my_bar = st.progress(0)
 for x in range(21):
     for y in range(30):
+        my_bar.progress((x*30 + y)/629 )
         try:
-            pd_cpd[y][x] =  Pdf(x, y)
+            st.write(str(x*30 + y) + '('+ str(x) + ',' + str(y) + ')' + 
+             " :: " +  str (round(Pdf(x, y) * 100, 3)))
         except:
             print(x, y)
-            pd_cpd[y][x] = 'E'
+            st.write(str(x*30 + y) +" :: " +  'E')

@@ -1,41 +1,91 @@
-import random
 import pandas as pd
 import streamlit as st
+import math 
+import random
+import sympy
+real_data = [ (random.choice((True, False)), random.randint(0, 600)) for k in range(10000)]    
 
-
-pseudo_data = [ (random.choice((True, False)), random.randint(0, 600)) for k in range(1000000)]    
-
-
-
+st.set_page_config(page_title="Pseudo stat",layout='wide')
+default_width = None
 count_data = {}
-for d in pseudo_data:
-    count_data[d[0]] = count_data.setdefault(d[0], 0) +  1
-
+for d in real_data:
+    count_data[d[1]] = count_data.setdefault(d[1], 0) +  1
+pd_cd = pd.DataFrame(None, index=range(21), columns=range(30))
+for x in range(21):
+    for y in range(30):
+        pd_cd[y][x] = count_data.get(x*30 + y,None)
+st.write("# Real Data")
+st.write("Total numbers")
+st.dataframe(pd_cd, width=default_width)
+'''---------------------------------------------------------------------------------------'''
 
 transform_data = {}
-for d in pseudo_data:
-    transform_data[d[0]] = transform_data.setdefault(d[0], 0) +  (-1)**(not d[1])
+for d in real_data:
+    transform_data[d[1]] = transform_data.setdefault(d[1], 0) +  (-1)**(not d[0])
 
-pd_td = pd.DataFrame(None, index=range(21), columns=range(31))
+pd_td = pd.DataFrame(None, index=range(21), columns=range(30))
 
 for x in range(21):
     for y in range(30):
         pd_td[y][x] = transform_data.get(x*30 + y,None)
+st.write('Win lose difference')
+st.dataframe(pd_td, width=default_width)
 
-st.write(pd_td)
+'''---------------------------------------------------------------------------------------'''
 
-percent_data={}
-for d in pseudo_data:
-    percent_data[d[0]] = percent_data.setdefault(d[0], 0) +  d[1]
+True_data={}
+for d in real_data:
+    True_data[d[1]] = True_data.setdefault(d[1], 0) +  d[0]
+
+pd_td = pd.DataFrame(None, index=range(21), columns=range(30))
+for x in range(21):
+    for y in range(30):
+        pd_td[y][x] = True_data.get(x*30 + y,None)
+
+st.write("Number of Trues")
+st.dataframe(pd_td, width=default_width)
+'''---------------------------------------------------------------------------------------'''
+percent_data = {}
 for c in count_data:
-    percent_data[c] = round(percent_data[c]/count_data[c]*100, 1)
+    percent_data[c] = True_data[c]/count_data[c]
 
-pd_pd = pd.DataFrame(None, index=range(21), columns=range(31))
+pd_pd = pd.DataFrame(None, index=range(21), columns=range(30))
 
 for x in range(21):
     for y in range(30):
-        pd_pd[y][x] = percent_data.get(x*30 + y,None)
+        pd_pd[y][x] = round(percent_data.get(x*30 + y,0)*100, 3)
 
+st.write("Percentages")
+st.dataframe(pd_pd, width=default_width)
 
+'''---------------------------------------------------------------------------------------'''
 
-st.write(pd_pd)
+def Pdf(x, y):
+    r = sympy.symbols('r')
+    h = True_data.get(x*30 + y, 0)
+    t = count_data.get(x*30 + y, 0) - h
+    a = math.factorial(h+t+1)
+    b = math.factorial(h) *  math.factorial(t) 
+    d = a//b
+    form = (r**h)*((1-r)**t)
+    prec = 0.001
+    start = 0
+    end = 0.325
+    fs = d*sum([prec * form.subs(r, start + prec * x ) for x in range(int((end-start)//prec))])
+    start =  0.625
+    end = 1
+    ss = d*sum([prec * form.subs(r, start + prec * x ) for x in range(int((end-start)//prec))])
+    return fs + ss
+
+st.write("Percentages of Percentages")
+my_bar = st.progress(0)
+for x in range(21):
+    for y in range(30):
+        my_bar.progress((x*30 + y)/629 )
+        try:
+            st.write(str(x*30 + y) + '('+ str(x) + ',' + str(y) + ')' + 
+             " :: " +  str (round(Pdf(x, y) * 100, 3)))
+        except:
+            print(x, y)
+            st.write(str(x*30 + y) + '('+ str(x) + ',' + str(y) + ')' + 
+            " :: " +  'E')
