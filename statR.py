@@ -4,6 +4,7 @@ import streamlit as st
 import pickle
 import math 
 from decimal import Decimal
+import sympy
 real_data = pickle.load(open("data.pkl", 'rb'))   
 
 count_data = {}
@@ -61,20 +62,19 @@ st.write(pd_pd)
 
 pd_cpd = pd.DataFrame(None, index=range(21), columns=range(30))
 
+def Pdf(x, y):
+    r = sympy.symbols('r')
+    h = True_data.get(x*30 + y, 0)
+    t = count_data.get(x*30 + y, 0) - h
+    a = Decimal(math.factorial(h+t+1))
+    b = Decimal( math.factorial(h) *  math.factorial(t) )
+    d = a/b
+    return d*(r**h)*((1-r)**t)
+
+
 for x in range(21):
     for y in range(30):
-        r = Decimal(percent_data.get(x*30 + y, 0))
-        h = int(True_data.get(x*30 + y, 0))
-        t = count_data.get(x*30 + y, 0) - h
-        a = Decimal(math.factorial(h+t+1))
-        b = Decimal( math.factorial(h) *  math.factorial(t) )
-        d = a/b
-        try:
-            z = r**h
-        except decimal.InvalidOperation:
-            z = 1
-        q = (1-r)**t
-        print(d*z*q)
-        pd_cpd[y][x] = int(d *z *q)
+        Cpdf = Pdf(x, y)
+        pd_cpd[y][x] =  sympy.integrate(Cpdf, (r, 0.375, 0.625))
 st.write("Percentages of Percentages")
 st.write(pd_cpd)
