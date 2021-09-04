@@ -21,7 +21,7 @@ stream_handler.setLevel(logging.DEBUG)
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 """FileHandler"""
-rotatingfile_handler = logging.handlers.RotatingFileHandler(/'main.log', backupCount=5, maxBytes=1073741824)
+rotatingfile_handler = logging.handlers.RotatingFileHandler('main.log', backupCount=5, maxBytes=1073741824)
 rotatingfile_handler.setLevel(logging.DEBUG)
 rotatingfile_handler.setFormatter(formatter)
 logger.addHandler(rotatingfile_handler)
