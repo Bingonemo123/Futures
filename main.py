@@ -1,8 +1,6 @@
 from iqoptionapi.stable_api import IQ_Option
 # import Internet_protocols
 import logging.handlers
-import datetime
-import pathlib
 import logging
 import time
 import sys
