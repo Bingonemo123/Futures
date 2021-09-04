@@ -10,23 +10,7 @@ import os
 import pickle
 connector =IQ_Option("ww.bingonemo@gmail.com","JF*#3C5va&_NDqy")
 connector.connect()
-'''----------------------------------------------------------------------------------------------'''
-if os.name == 'posix':
-    path = pathlib.PurePosixPath(os.path.abspath(__file__)).parent 
-    if 'Forex_experiments' in path.parts:
-        path = path.parent / str(datetime.date.today())
-    else:
-        path = path / 'Forex_experiments'  / str(datetime.date.today())
-    # After this, path is equals to current date folder
-    file_path = pathlib.PurePosixPath(os.path.abspath(__file__))
-else:
-    path = pathlib.PureWindowsPath(os.path.abspath(__file__)).parent 
-    if 'Forex_experiments' in path.parts:
-        path = path.parent / str(datetime.date.today())
-    else:
-        path = path / 'Forex_experiments'  / str(datetime.date.today())
-    # After this, path is equals to current date folder
-    file_path = pathlib.PureWindowsPath(os.path.abspath(__file__))
+
 '''----------------------------------------------------------------------------------------------'''
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -37,7 +21,7 @@ stream_handler.setLevel(logging.DEBUG)
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 """FileHandler"""
-rotatingfile_handler = logging.handlers.RotatingFileHandler(path.parent/'main.log', backupCount=5, maxBytes=1073741824)
+rotatingfile_handler = logging.handlers.RotatingFileHandler(/'main.log', backupCount=5, maxBytes=1073741824)
 rotatingfile_handler.setLevel(logging.DEBUG)
 rotatingfile_handler.setFormatter(formatter)
 logger.addHandler(rotatingfile_handler)
