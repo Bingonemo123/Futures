@@ -88,7 +88,8 @@ while True:
                     checklist.append((id,s))
 
             for chl in checklist:
-                while True:
+                sst = time.time()
+                while time.time() - stt < 120:
                     check, win = connector.check_win_digital_v2(chl[0])
                     if check == True:
                         data.append(((win > 0), chl[1]))
