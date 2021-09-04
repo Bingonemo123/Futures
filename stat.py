@@ -3,7 +3,7 @@ import streamlit as st
 import math 
 import random
 import sympy
-real_data = [ (random.choice((True, False)), random.randint(0, 600)) for k in range(38000)]    
+real_data = [ (random.choice((True, False)), random.randint(0, 600)) for k in range(37954)]    
 
 st.set_page_config(page_title="Pseudo stat",layout='wide')
 default_width = None
@@ -82,7 +82,8 @@ st.write("Percentages of Percentages")
 my_bar = st.progress(0)
 pd_ppcd =  pd.DataFrame(None, index=range(21), columns=range(30))
 try:
-    pd_ppcd = pd.read_pickle('./Archive/popdf' + str(len(real_data)) + '.pkl')
+    raise SyntaxError
+    pd_ppcd = pd.read_pickle('./Archive/popdfpseudo' + str(len(real_data)) + '.pkl')
     my_bar.progress(100)
     st.write('Loaded from archive')
 except:
@@ -101,7 +102,7 @@ except:
                     " :: " +  'E')
                     pd_ppcd[y][x] = 'E'
 
-    pd_ppcd.to_pickle('./Archive/popdf' + str(len(real_data)) + '.pkl')
+    pd_ppcd.to_pickle('./Archive/popdfpseudo' + str(len(real_data)) + '.pkl')
 
 st.dataframe(pd_ppcd, width=default_width)
 '''---------------------------------------------------------------------------------------'''
@@ -110,9 +111,9 @@ uplimit = []
 for x in range(21):
     for y in range(30):
         if float(pd_ppcd[y][x]) >= limit:
-            uplimit.append((x, y, x*30 + y,  pd_ppcd[y][x], pd_cd[y][x]))
+            uplimit.append((x, y, x*30 + y,  pd_ppcd[y][x], pd_cd[y][x], pd_pd[y][x]))
 
-pd_showdata = pd.DataFrame(uplimit, columns=['x', 'y','index',' percentage', 'Total occurence'])
+pd_showdata = pd.DataFrame(uplimit, columns=['x', 'y','index',' percentage', 'Total occurence', 'real %'])
 st.write(pd_showdata)
 
 soto = sum([h[4] for h in uplimit if h[4] != None])    #sumoftotaloccurences

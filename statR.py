@@ -112,9 +112,9 @@ uplimit = []
 for x in range(21):
     for y in range(30):
         if float(pd_ppcd[y][x]) >= limit:
-            uplimit.append((x, y, x*30 + y,  pd_ppcd[y][x], pd_cd[y][x]))
+            uplimit.append((x, y, x*30 + y,  pd_ppcd[y][x], pd_cd[y][x], pd_pd[y][x]))
 
-pd_showdata = pd.DataFrame(uplimit, columns=['x', 'y','index',' percentage', 'Total occurence'])
+pd_showdata = pd.DataFrame(uplimit, columns=['x', 'y','index',' percentage', 'Total occurence', 'real %'])
 st.write(pd_showdata)
 
 soto = sum([h[4] for h in uplimit if h[4] != None])    #sumoftotaloccurences
