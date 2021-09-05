@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 import pickle
 import math 
+import numpy as np
 import sympy
 real_data = pickle.load(open("data.pkl", 'rb'))   
 
@@ -73,10 +74,10 @@ def Pdf(x, y):
     prec = 0.001
     start = 0
     end = 0.325
-    fs = d*sum([prec * form.subs(r, start + prec * x ) for x in range(int((end-start)//prec))])
+    fs = d*sum([prec * form.subs(r, start + prec * k ) for k in range(int((end-start)//prec))])
     start =  0.625
     end = 1
-    ss = d*sum([prec * form.subs(r, start + prec * x ) for x in range(int((end-start)//prec))])
+    ss = d*sum([prec * form.subs(r, start + prec * k ) for k in range(int((end-start)//prec))])
     return fs + ss
 
 st.write("Percentages of Percentages")
@@ -107,24 +108,58 @@ except:
 st.dataframe(pd_ppcd, width=default_width)
 
 '''---------------------------------------------------------------------------------------'''
-limit = 80
-uplimit = []
-for x in range(21):
-    for y in range(30):
-        if float(pd_ppcd[y][x]) >= limit:
-            uplimit.append((x, y, x*30 + y,  pd_ppcd[y][x], pd_cd[y][x], pd_pd[y][x]))
+left_column, right_column = st.columns(2)
 
-pd_showdata = pd.DataFrame(uplimit, columns=['x', 'y','index',' percentage', 'Total occurence', 'real %'])
-st.write(pd_showdata)
+with left_column:
+    limit = 80
+    uplimit = []
+    for x in range(21):
+        for y in range(30):
+            if float(pd_ppcd[y][x]) >= limit:
+                uplimit.append((x, y, x*30 + y,  pd_ppcd[y][x], pd_cd[y][x], pd_pd[y][x], pd_td[y][x]))
 
-soto = sum([h[4] for h in uplimit if h[4] != None])    #sumoftotaloccurences
-st.write('Sum of Total occurences: ' + str(soto))
-ap = [float(h[3]) for h in uplimit if h[2] != None]
-ap = sum(ap)/ len(ap) # average percantage
-st.write('Average percantage: ' + str(ap))
-rp = [float(h[3]) * h[4] for h in uplimit if (h[3] != None and h[4] != None) ]
-rp = sum(rp)/soto # relative percantage
-st.write('Relative percantage: ' + str(rp))
+    pd_showdata = pd.DataFrame(uplimit, columns=['x', 'y','index',' percentage', 'Total occurence', 'real %', 'wins'])
+    st.write(pd_showdata)
+
+    soto = sum([h[4] for h in uplimit if h[4] != None])    #sumoftotaloccurences
+    st.write('Sum of Total occurences: ' + str(soto))
+    sow = sum(h[6] for h in uplimit if h[5] > 50) + sum(h[4] - h[6] for h in uplimit if h[5] < 50) 
+    st.write('Sum of wins: ' + str(sow))
+    ap = [float(h[3]) for h in uplimit if h[2] != None]
+    ap = sum(ap)/ len(ap) # average percantage
+    st.write('Average percantage: ' + str(ap))
+    rp = [float(h[3]) * h[4] for h in uplimit if (h[3] != None and h[4] != None) ]
+    rp = sum(rp)/soto # relative percantage
+    st.write('Relative percantage: ' + str(rp))
+    st.write('Abs %: ' + str(sow/soto * 100))
+
+    def NPdf(h, t):
+        r = sympy.symbols('r')
+        a = math.factorial(h+t+1)
+        b = math.factorial(h) *  math.factorial(t) 
+        d = a//b
+        form = (r**h)*((1-r)**t)
+        prec = 0.001
+        start =  0.625
+        end = 1
+        ss = d*sum([prec * form.subs(r, start + prec * k ) for k in range(int((end-start)//prec))])
+        return ss
+
+    st.write('% of abs % being above 62.5 % :' + str(NPdf(sow, soto-sow)* 100))
+
+    def EV (perc, total):
+        x, n, p ,m, k, j = sympy.symbols("x n p m k j")
+        bi = sympy.functions.combinatorial.factorials.binomial(k, j)
+        exp = bi *(x*((n+m)*p)**(k-j)*((n-1)*(1-p))**(j))/n**k
+        bisum = sympy.Sum(exp, (j, 0, k))
+        subsbisum = bisum.subs([(n,2),(p, perc), (m,0.6), (k, total)])
+        return subsbisum.doit().subs(x, 1)
+
+    st.write('Expected value : ' + str( EV(sow/soto, soto)))
+
+with right_column:
+    chart_data = pd.DataFrame([float(EV(t, soto)) for t in np.linspace(0.625, sow/soto, 10) ], index =np.linspace(0.625, sow/soto, 10) )
+    st.bar_chart(chart_data)
 '''---------------------------------------------------------------------------------------'''
 
 recept = {}
@@ -136,4 +171,6 @@ for f in  uplimit:
 
 if st.button('Show recept'):
     st.write('recept')
+
+left_column, right_column = st.columns(2)
 

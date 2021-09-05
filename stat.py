@@ -72,10 +72,10 @@ def Pdf(x, y):
     prec = 0.01
     start = 0
     end = 0.325
-    fs = d*sum([prec * form.subs(r, start + prec * x ) for x in range(int((end-start)//prec))])
+    fs = d*sum([prec * form.subs(r, start + prec * k ) for k in range(int((end-start)//prec))])
     start =  0.625
     end = 1
-    ss = d*sum([prec * form.subs(r, start + prec * x ) for x in range(int((end-start)//prec))])
+    ss = d*sum([prec * form.subs(r, start + prec * k ) for k in range(int((end-start)//prec))])
     return fs + ss
 
 st.write("Percentages of Percentages")
