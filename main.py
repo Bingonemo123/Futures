@@ -65,16 +65,17 @@ while True:
                 connector.start_candles_stream(f[:6], 5, 600)
                 candles = list(connector.get_realtime_candles(f[:6], 5).values())
                 s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+                ms = sum([1 for c in candles if c.get('max') > candles[-1].get('close')])
                 check, id = connector.buy_digital_spot(f, 1, 'call', 1)
                 if check == True:
-                    checklist.append((id,s))
+                    checklist.append((id,s,ms))
 
             for chl in checklist:
                 sst = time.time()
                 while time.time() - sst < 120:
                     check, win = connector.check_win_digital_v2(chl[0])
                     if check == True:
-                        data.append(((win > 0), chl[1]))
+                        data.append(((win > 0), chl[1], chl[2]))
                         break
             logger.info(checklist)
         pickle.dump(data, open('data.pkl', 'bw'))
