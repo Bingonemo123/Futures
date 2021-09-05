@@ -125,3 +125,15 @@ st.write('Average percantage: ' + str(ap))
 rp = [float(h[3]) * h[4] for h in uplimit if (h[3] != None and h[4] != None) ]
 rp = sum(rp)/soto # relative percantage
 st.write('Relative percantage: ' + str(rp))
+'''---------------------------------------------------------------------------------------'''
+
+recept = {}
+for f in  uplimit:
+    if f[5] > 50:
+        recept[f[2]] = 'call'
+    else:
+        recept[f[2]] = 'put'
+
+if st.button('Show recept'):
+    st.write('recept')
+
