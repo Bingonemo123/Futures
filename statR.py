@@ -158,8 +158,15 @@ with left_column:
     st.write('Expected value : ' + str( EV(sow/soto, soto)))
 
 with right_column:
-    chart_data = pd.DataFrame([float(EV(t, soto)) for t in np.linspace(0.625, sow/soto, 10) ], index =np.linspace(0.625, sow/soto, 10) )
+    chart_data = pd.DataFrame([float(EV(t, soto)) for t in np.round(np.linspace(0.625, 0.630, 10), decimals=4) ], index = np.round(np.linspace(0.625, 0.630, 10), decimals=4), columns = ['p'] )
     st.bar_chart(chart_data)
+    def EVF():
+        x, n, p ,m, k, j = sympy.symbols("x n p m k j")
+        bi = sympy.functions.combinatorial.factorials.binomial(k, j)
+        exp = bi *(x*((n+m)*p)**(k-j)*((n-1)*(1-p))**(j))/n**k
+        bisum = sympy.Sum(exp, (j, 0, k))
+        return bisum
+    st.write(EVF())
 '''---------------------------------------------------------------------------------------'''
 
 recept = {}
