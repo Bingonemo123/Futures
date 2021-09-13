@@ -73,7 +73,7 @@ def Pdf(x, y):
     form = (r**h)*((1-r)**t)
     prec = 0.001
     start = 0
-    end = 0.325
+    end = 0.375
     fs = d*sum([prec * form.subs(r, start + prec * k ) for k in range(int((end-start)//prec))])
     start =  0.625
     end = 1
@@ -115,7 +115,7 @@ with left_column:
     uplimit = []
     for x in range(21):
         for y in range(30):
-            if float(pd_ppcd[y][x]) >= limit:
+            if float(pd_ppcd[y][x]) >= limit and (float(pd_pd[y][x]) > 62.5 or float(pd_pd[y][x]) < 37.5):
                 uplimit.append((x, y, x*30 + y,  pd_ppcd[y][x], pd_cd[y][x], pd_pd[y][x], pd_td[y][x]))
 
     pd_showdata = pd.DataFrame(uplimit, columns=['x', 'y','index',' percentage', 'Total occurence', 'real %', 'wins'])
@@ -177,7 +177,4 @@ for f in  uplimit:
         recept[f[2]] = 'put'
 
 if st.button('Show recept'):
-    st.write('recept')
-
-left_column, right_column = st.columns(2)
-
+    st.write(recept)
