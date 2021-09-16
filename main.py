@@ -52,8 +52,6 @@ while True:
             else:
                 break
         logger.info('uw1')
-        balance = connector.get_balance()
-        logger.info(str(balance)+'$')
         ALL_Asset=connector.get_all_open_time()
 
         open_digits = [x for x in ALL_Asset[instrument_type] if ALL_Asset[instrument_type][x].get('open')]
