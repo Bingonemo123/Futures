@@ -155,7 +155,7 @@ with left_column:
         subsbisum = bisum.subs([(n,2),(p, perc), (m,0.6), (k, total)])
         return subsbisum.doit().subs(x, 1)
 
-    st.write('Expected value : ' + str( EV(sow/soto, soto)))
+    # st.write('Expected value : ' + str( EV(sow/soto, soto)))
 
 with right_column:
     chart_data = pd.DataFrame([float(EV(t, soto)) for t in np.round(np.linspace(0.625, 0.630, 10), decimals=4) ], index = np.round(np.linspace(0.625, 0.630, 10), decimals=4), columns = ['p'] )

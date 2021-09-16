@@ -71,13 +71,34 @@ while True:
                 connector.start_candles_stream(f[:6], 5, 600)
                 candles = list(connector.get_realtime_candles(f[:6], 5).values())
                 s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
-                recept = {99: 'call', 156: 'call', 206: 'call', 213: 'put', 238:'put', 266:'put', 316:'put', 330:'call', 482:'call'}
-                if s in recept:
-                    check, id = connector.buy_digital_spot(f, balance/2, recept[s], 1)
+                recept = {
+                            "98": "put",
+                            "99": "call",
+                            "129": "put",
+                            "156": "call",
+                            "206": "call",
+                            "213": "put",
+                            "220": "put",
+                            "227": "put",
+                            "238": "put",
+                            "250": "put",
+                            "266": "put",
+                            "316": "put",
+                            "330": "call",
+                            "345": "put",
+                            "370": "put",
+                            "401": "put",
+                            "409": "put",
+                            "427": "put",
+                            "482": "call",
+                            "483": "put"
+                            }
+                if str(s) in recept:
+                    check, id = connector.buy_digital_spot(f, balance/2, recept[str(s)], 1)
                     if check == True:
                         checklist.append((id,s))
                         balance = connector.get_balance()
-                        logger.info(recept[s] + ' on ' + f + ' ' + str(id) + ' ' + str(s) + ' ' + str(balance)+'$')
+                        logger.info(recept[str(s)] + ' on ' + f + ' ' + str(id) + ' ' + str(s) + ' ' + str(balance)+'$')
             for chl in checklist:
                 sst = time.time()
                 while time.time() - sst < 120:
