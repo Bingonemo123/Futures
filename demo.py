@@ -20,7 +20,7 @@ stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 """FileHandler"""
 rotatingfile_handler = logging.handlers.RotatingFileHandler('demomain.log', backupCount=5, maxBytes=1073741824)
-rotatingfile_handler.setLevel(logging.DEBUG)
+rotatingfile_handler.setLevel(logging.INFO)
 rotatingfile_handler.setFormatter(formatter)
 logger.addHandler(rotatingfile_handler)
 #----------------------------------------------------------------------------#
@@ -38,26 +38,39 @@ use_trail_stop=False
 auto_margin_call=True 
 use_token_for_commission=False 
 #----------------------------------------------------------------------------#
+def get_custom_balance(timeout = 60):
+    connector.api.balances_raw = None
+    connector.api.get_balances()
+    stt = time.time()
+    while connector.api.balances_raw == None and time.time() - stt < timeout:
+        pass
+    if connector.api.balances_raw == None:
+        return None
+    for balance in connector.api.balances_raw["msg"]:
+            if balance["id"] == connector.get_balance_id():
+                return balance["amount"]
+
+logger.info('Start')
 while True:
     try:
-
         try:
             data = pickle.load(open('demo_data_{0}.pkl'.format(str(datetime.date.today())), 'rb'))
         except:
             data = []
             pickle.dump(data, open('demo_data_{0}.pkl'.format(str(datetime.date.today())), 'bw'))
 
-
-        logger.info('w1')
+        logger.debug('w1')
         while True:
             if connector.check_connect() == False:
                 check,reason=connector.connect()
             else:
                 break
-        logger.info('uw1')
+        logger.debug('uw1')
 
-        balance = connector.get_balance()
-        logger.info(str(balance)+'$')
+        balance = get_custom_balance()
+        if balance == None:
+            continue
+        logger.debug(str(balance)+'$')
         
         ALL_Asset=connector.get_all_open_time()
 
@@ -67,7 +80,9 @@ while True:
         
             checklist = []
             for f in open_digits:
-                balance = connector.get_balance()
+                balance = get_custom_balance()
+                if balance == None:
+                    continue
                 connector.start_candles_stream(f[:6], 5, 600)
                 candles = list(connector.get_realtime_candles(f[:6], 5).values())
                 s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
@@ -94,10 +109,17 @@ while True:
                             "483": "put"
                             }
                 if str(s) in recept:
-                    check, id = connector.buy_digital_spot(f, balance/2, recept[str(s)], 1)
+                    var_1 = 10000
+                    if balance % var_1 >= var_1/2 or balance < var_1:
+                        bit = balance % var_1
+                    else:
+                        bit = var_1
+                    check, id = connector.buy_digital_spot(f, bit/5, recept[str(s)], 1)
                     if check == True:
                         checklist.append((id,s))
-                        balance = connector.get_balance()
+                        balance = get_custom_balance()
+                        if balance == None:
+                            continue
                         logger.info(recept[str(s)] + ' on ' + f + ' ' + str(id) + ' ' + str(s) + ' ' + str(balance)+'$')
             for chl in checklist:
                 sst = time.time()
@@ -106,9 +128,10 @@ while True:
                     if check == True:
                         data.append(((win > 0), chl[1]))
                         break
-            logger.info(checklist)
+            if len(checklist) > 0:
+                logger.info(checklist)
         pickle.dump(data, open('demo_data_{0}.pkl'.format(str(datetime.date.today())), 'bw'))
-        logger.info(len(data))
+        logger.debug(len(data))
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
