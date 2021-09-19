@@ -75,7 +75,7 @@ while True:
         ALL_Asset=connector.get_all_open_time()
 
         open_digits = [x for x in ALL_Asset[instrument_type] if ALL_Asset[instrument_type][x].get('open')]
-
+        found_s = []
         for i in range(5):
         
             checklist = []
@@ -86,6 +86,8 @@ while True:
                 connector.start_candles_stream(f[:6], 5, 600)
                 candles = list(connector.get_realtime_candles(f[:6], 5).values())
                 s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
+                if s is not in found_s:
+                    found_s.append(s)
                 recept = {
                             "98": "put",
                             "99": "call",
@@ -132,6 +134,7 @@ while True:
                 logger.info(checklist)
         pickle.dump(data, open('demo_data_{0}.pkl'.format(str(datetime.date.today())), 'bw'))
         logger.debug(len(data))
+        logger.debug(found_s)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
