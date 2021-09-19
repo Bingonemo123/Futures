@@ -86,7 +86,7 @@ while True:
                 connector.start_candles_stream(f[:6], 5, 600)
                 candles = list(connector.get_realtime_candles(f[:6], 5).values())
                 s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
-                if s is not in found_s:
+                if s not in found_s:
                     found_s.append(s)
                 recept = {
                             "98": "put",
