@@ -112,11 +112,20 @@ while True:
                             }
                 if str(s) in recept:
                     var_1 = 10000
+                    if balance < 1:
+                        connector.reset_practice_balance()
                     if balance % var_1 >= var_1/2 or balance < var_1:
                         bit = balance % var_1
                     else:
                         bit = var_1
-                    check, id = connector.buy_digital_spot(f, bit/5, recept[str(s)], 1)
+                    partition = 5
+                    if bit/partition < 1:
+                        bit = 1
+                    elif bit/partition > 20000:
+                        bit = 20000
+                    else:
+                        bit = bit/partition
+                    check, id = connector.buy_digital_spot(f, bit, recept[str(s)], 1)
                     if check == True:
                         checklist.append((id,s))
                         balance = get_custom_balance()
