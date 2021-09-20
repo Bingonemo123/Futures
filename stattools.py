@@ -157,7 +157,7 @@ class Stat:
         self.shownumbers()
         left_column, right_column = st.columns(2)
         with left_column:
-            st.dataframe(self.showdata)
+            st.dataframe(self.pd_showdata)
             st.write('Sum of Total occurences: ' + str(self.soto))
             st.write('Sum of wins: ' + str(self.sow))
             st.write('Average percantage: ' + str(self.ap))
@@ -167,8 +167,9 @@ class Stat:
             # st.write('Expected value : ' + str( EV(sow/soto, soto)))
 
         with right_column:
-            chart_data = pd.DataFrame([float(self.EV(t, self.soto)) for t in np.round(np.linspace(0.625, 0.630, 10), decimals=4) ], index = np.round(np.linspace(0.625, 0.630, 10), decimals=4), columns = ['p'] )
-            st.bar_chart(chart_data)
+            if 'chart_data' not in  st.session_state:
+                st.session_state['chart_data'] = pd.DataFrame([float(self.EV(t, self.soto)) for t in np.round(np.linspace(0.625, 0.630, 10), decimals=4) ], index = np.round(np.linspace(0.625, 0.630, 10), decimals=4), columns = ['p'] )
+            st.bar_chart(st.session_state['chart_data'])
             st.write(self.EVF())
 
             recept = {}
