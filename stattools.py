@@ -157,6 +157,7 @@ class Stat:
         self.shownumbers()
         left_column, right_column = st.columns(2)
         with left_column:
+            st.dataframe(self.showdata)
             st.write('Sum of Total occurences: ' + str(self.soto))
             st.write('Sum of wins: ' + str(self.sow))
             st.write('Average percantage: ' + str(self.ap))
