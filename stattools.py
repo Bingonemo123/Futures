@@ -3,6 +3,7 @@ import sympy
 import math
 import streamlit as st
 import numpy as np
+from scipy import stats
 
 class Stat:
     def __init__(self, data):
@@ -18,6 +19,15 @@ class Stat:
         self.pd_pd = pd.DataFrame(None, index=range(21), columns=range(30))
         # percentages of percantages
         self.pd_ppcd =  pd.DataFrame(None, index=range(21), columns=range(30))
+
+    def transpose(self, position):
+        self.sandwictch = []
+        for d in self.real_data:
+            try:
+                self.sandwictch.append((d[0], d[position]))
+            except:
+                continue
+        self.real_data = self.sandwictch
 
     def totals(self):
         self.count_data = {}
@@ -51,51 +61,27 @@ class Stat:
             for y in range(30):
                 self.pd_pd[y][x] = round(percent_data.get(x*30 + y,0)*100, 3)
 
-    def Pdf(self, x, y):
-        r = sympy.symbols('r')
-        h = self.True_data.get(x*30 + y, 0)
-        t = self.count_data.get(x*30 + y, 0) - h
-        a = math.factorial(h+t+1)
-        b = math.factorial(h) *  math.factorial(t) 
-        d = a//b
-        form = (r**h)*((1-r)**t)
-        prec = 0.001
-        start = 0
-        end = 0.375
-        fs = d*sum([prec * form.subs(r, start + prec * k ) for k in range(int((end-start)//prec))])
-        start =  0.625
-        end = 1
-        ss = d*sum([prec * form.subs(r, start + prec * k ) for k in range(int((end-start)//prec))])
-        return fs + ss
+    def scipicdf(self, h, t):
+        return  1 - stats.beta.cdf(0.625, h + 1, t + 1) + stats.beta.cdf(0.375, h + 1, t + 1)
 
-    def percentageofpercentage(self, load = True):
+    def scipp(self):
         my_bar = st.progress(0)
-        try:
-            if not load:
-                raise Exception
-            self.pd_ppcd = pd.read_pickle('./Archive/popdf' + str(len(self.real_data)) + '.pkl')
-            my_bar.progress(100)
-            st.write('Loaded from archive')
-        except:
-            with st.empty():
-                for x in range(21):
-                    for y in range(30):
-                        my_bar.progress((x*30 + y)/629 )
-                        try:
-                            c = round(self.Pdf(x, y) * 100, 3)
-                            st.write(str(x*30 + y) + '('+ str(x) + ',' + str(y) + ')' + 
-                            " :: " +  str (c))
-                            self.pd_ppcd[y][x] = format(c, '.2f')
-                        except:
-                            print(x, y)
-                            st.write(str(x*30 + y) + '('+ str(x) + ',' + str(y) + ')' + 
-                            " :: " +  'E')
-                            self.pd_ppcd[y][x] = 'E'
-
-            if load:
-                self.pd_ppcd.to_pickle('./Archive/popdf' + str(len(self.real_data)) + '.pkl')
-            else:
-                self.pd_ppcd.to_pickle('./Archive/popdfpseudo' + str(len(self.real_data)) + '.pkl')
+        with st.empty():
+            for x in range(21):
+                for y in range(30):
+                    my_bar.progress((x*30 + y)/629 )
+                    try:
+                        h = self.True_data.get(x*30 + y, 0)
+                        t = self.count_data.get(x*30 + y, 0) - h
+                        c = round(self.scipicdf(h, t) * 100, 3)
+                        st.write(str(x*30 + y) + '('+ str(x) + ',' + str(y) + ')' + 
+                        " :: " +  str (c))
+                        self.pd_ppcd[y][x] = format(c, '.2f')
+                    except Exception as e:
+                        print(x, y, e)
+                        st.write(str(x*30 + y) + '('+ str(x) + ',' + str(y) + ')' + 
+                        " :: " +  'E')
+                        self.pd_ppcd[y][x] = 'E'
 
     def showdata (self):
         limit = 80
@@ -110,23 +96,21 @@ class Stat:
 
     def shownumbers (self):
         self.soto = sum([h[4] for h in self.uplimit if h[4] != None])    #sumoftotaloccurences
-        self.sow = sum(h[6] for h in self.uplimit if h[5] > 50) + sum(h[4] - h[6] for h in self.uplimit if h[5] < 50) 
+        self.sow = sum(h[6] for h in self.uplimit if (h[5] > 50 and h[4] != None)) + sum(h[4] - h[6] for h in self.uplimit if (h[5] < 50 and (h[4] != None or h[6] != None))) 
         self.ap = [float(h[3]) for h in self.uplimit if h[2] != None]
-        self.ap = sum(self.ap)/ len(self.ap) # average percantage
+        try:
+            self.ap = sum(self.ap)/ len(self.ap) # average percantage
+        except ZeroDivisionError:
+            self.ap = 0
         self.rp = [float(h[3]) * h[4] for h in self.uplimit if (h[3] != None and h[4] != None) ]
-        self.rp = sum(self.rp)/self.soto # relative percantage
-    
-    def NPdf(self, h, t):
-        r = sympy.symbols('r')
-        a = math.factorial(h+t+1)
-        b = math.factorial(h) *  math.factorial(t) 
-        d = a//b
-        form = (r**h)*((1-r)**t)
-        prec = 0.001
-        start =  0.625
-        end = 1
-        ss = d*sum([prec * form.subs(r, start + prec * k ) for k in range(int((end-start)//prec))])
-        return ss
+        try:
+            self.rp = sum(self.rp)/self.soto # relative percantage
+        except ZeroDivisionError:
+            self.rp = 0
+        try:
+            self.ab = self.sow/self.soto
+        except ZeroDivisionError:
+            self.ab = 0
 
     def EV (self, perc, total):
         x, n, p ,m, k, j = sympy.symbols("x n p m k j")
@@ -143,18 +127,18 @@ class Stat:
         bisum = sympy.Sum(exp, (j, 0, k))
         return bisum
 
-    def strmlt (self, load):
-        st.set_page_config(page_title="Pseudo stat",layout='wide')
-        default_width = None
-        st.write("# Real Data")
-        st.write('number of data:' + str(len(self.real_data)))
+    def calculations(self, load):
         self.totals()
         self.winlosediff()
         self.numberofwins()
         self.realpercetange()
-        self.percentageofpercentage(load=load)
+        self.scipp(load=load)
         self.showdata()
         self.shownumbers()
+
+    def strmlt (self):
+        st.write("# Real Data")
+        st.write('number of data:' + str(len(self.real_data)))
         left_column, right_column = st.columns(2)
         with left_column:
             st.dataframe(self.pd_showdata)
@@ -162,8 +146,8 @@ class Stat:
             st.write('Sum of wins: ' + str(self.sow))
             st.write('Average percantage: ' + str(self.ap))
             st.write('Relative percantage: ' + str(self.rp))
-            st.write('Abs %: ' + str(self.sow/self.soto * 100))
-            st.write('% of abs % being above 62.5 % :' + str(self.NPdf(self.sow, self.soto-self.sow)* 100))
+            st.write('Abs %: ' + str(self.ab * 100))
+            st.write('% of abs % being above 62.5 % :' + str((1 - stats.beta.cdf(0.625, self.sow + 1, self.soto-self.sow + 1))* 100))
             # st.write('Expected value : ' + str( EV(sow/soto, soto)))
 
         with right_column:
@@ -181,3 +165,19 @@ class Stat:
 
             if st.button('Show recept'):
                 st.write(recept)
+
+    def pseudostrmlt(self):
+        left_column, right_column = st.columns(2)
+        with left_column:
+            st.dataframe(self.pd_showdata)
+            st.write('Sum of Total occurences: ' + str(self.soto))
+            st.write('Sum of wins: ' + str(self.sow))
+            st.write('Average percantage: ' + str(self.ap))
+            st.write('Relative percantage: ' + str(self.rp))
+            st.write('Abs %: ' + str(self.ab * 100))
+            st.write('% of abs % being above 62.5 % :' + str((1 - stats.beta.cdf(0.625, self.sow + 1, self.soto-self.sow + 1))* 100))
+            # st.write('Expected value : ' + str( EV(sow/soto, soto)))
+
+
+
+

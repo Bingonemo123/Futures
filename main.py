@@ -52,7 +52,8 @@ while True:
             else:
                 break
         logger.info('uw1')
-        ALL_Asset=connector.get_all_open_time()
+        
+        ALL_Asset=connector.get_all_open_time() # loop warning
 
         open_digits = [x for x in ALL_Asset[instrument_type] if ALL_Asset[instrument_type][x].get('open')]
 
@@ -60,20 +61,24 @@ while True:
         
             checklist = []
             for f in open_digits:
-                connector.start_candles_stream(f[:6], 5, 600)
+                connector.start_candles_stream(f[:6], 5, 600) # loop warning
                 candles = list(connector.get_realtime_candles(f[:6], 5).values())
+
+                # Exams
                 s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
                 ms = sum([1 for c in candles if c.get('max') > candles[-1].get('close')])
+                # Exams
+
                 check, id = connector.buy_digital_spot(f, 1, 'call', 1)
                 if check == True:
-                    checklist.append((id,s,ms))
+                    checklist.append((id,s,ms)) # add exam
 
             for chl in checklist:
                 sst = time.time()
                 while time.time() - sst < 120:
                     check, win = connector.check_win_digital_v2(chl[0])
                     if check == True:
-                        data.append(((win > 0), chl[1], chl[2]))
+                        data.append(((win > 0), chl[1], chl[2])) # add exam
                         break
             logger.info(checklist)
         pickle.dump(data, open('data.pkl', 'bw'))
