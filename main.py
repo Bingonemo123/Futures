@@ -77,10 +77,12 @@ while True:
                 while time.time() - sst < 120:
                     check, win = connector.check_win_digital_v2(chl[0])
                     if check == True:
+                        position_id = connector.get_digital_position(chl[0]).get('msg').get('position').get('id')
                         data.append({'Outcome' : (win > 0),
                                      'Id' : chl[0],
                                      'Buying_time': chl[1],
                                      'Closing_time': time.time()
+                                     'Position_Id': position_id
                                     }) # add exam
                         break
             logger.info(checklist)
