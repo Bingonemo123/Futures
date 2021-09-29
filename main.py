@@ -68,18 +68,23 @@ while True:
                 s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
                 ms = sum([1 for c in candles if c.get('max') > candles[-1].get('close')])
                 buying_time = time.time()
+                buying_price = candles[-1].get('close')
+                forex_name = f
                 # Exams
 
                 check, id = connector.buy_digital_spot(f, 1, 'call', 1)
                 if check == True:
-                    checklist.append((id,s,ms)) # add exam
+                    checklist.append((id,s,ms, buying_time, buying_price, f)) # add exam
 
             for chl in checklist:
                 sst = time.time()
                 while time.time() - sst < 120:
                     check, win = connector.check_win_digital_v2(chl[0])
                     if check == True:
-                        data.append(((win > 0), chl[1], chl[2], chl[3], time.time())) # add exam
+                        connector.start_candles_stream(f[:6], 5, 600) # loop warning
+                        candles = list(connector.get_realtime_candles(f[:6], 5).values())
+                        data.append(((win > 0), chl[1], chl[2], chl[3], time.time(), chl[4],
+                                    chl[5], (candles[-1].get('close') > chl[4]) )) # add exam
                         break
             logger.info(checklist)
         pickle.dump(data, open('data.pkl', 'bw'))
