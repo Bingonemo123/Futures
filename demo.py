@@ -54,10 +54,10 @@ logger.info('Start')
 while True:
     try:
         try:
-            data = pickle.load(open('demo_data_{0}.pkl'.format(str(datetime.date.today())), 'rb'))
+            data = pickle.load(open('demo_data.pkl', 'rb'))
         except:
             data = []
-            pickle.dump(data, open('demo_data_{0}.pkl'.format(str(datetime.date.today())), 'bw'))
+            pickle.dump(data, open('demo_data.pkl', 'bw'))
 
         logger.debug('w1')
         while True:
@@ -112,7 +112,7 @@ while True:
                             }
                 if str(s) in recept:
                     var_1 = 10000
-                    if balance < 1:
+                    if balance < 1 or ( datetime.datetime.now().weekday() == 0 and datetime.datetime.now().hour == 0):
                         connector.reset_practice_balance()
                     if balance % var_1 >= var_1/2 or balance < var_1:
                         bit = balance % var_1
@@ -141,7 +141,7 @@ while True:
                         break
             if len(checklist) > 0:
                 logger.info(checklist)
-        pickle.dump(data, open('demo_data_{0}.pkl'.format(str(datetime.date.today())), 'bw'))
+        pickle.dump(data, open('demo_data.pkl', 'bw'))
         logger.debug(len(data))
         logger.debug(found_s)
     except Exception as e:

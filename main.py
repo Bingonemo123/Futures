@@ -67,6 +67,7 @@ while True:
                 # Exams
                 s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
                 ms = sum([1 for c in candles if c.get('max') > candles[-1].get('close')])
+                buying_time = time.time()
                 # Exams
 
                 check, id = connector.buy_digital_spot(f, 1, 'call', 1)
@@ -78,7 +79,7 @@ while True:
                 while time.time() - sst < 120:
                     check, win = connector.check_win_digital_v2(chl[0])
                     if check == True:
-                        data.append(((win > 0), chl[1], chl[2])) # add exam
+                        data.append(((win > 0), chl[1], chl[2], chl[3], time.time())) # add exam
                         break
             logger.info(checklist)
         pickle.dump(data, open('data.pkl', 'bw'))
