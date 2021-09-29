@@ -81,7 +81,7 @@ while True:
                         data.append({'Outcome' : (win > 0),
                                      'Id' : chl[0],
                                      'Buying_time': chl[1],
-                                     'Closing_time': time.time()
+                                     'Closing_time': time.time(),
                                      'Position_Id': position_id
                                     }) # add exam
                         break
