@@ -5,7 +5,7 @@ import logging
 import time
 import sys
 import os
-import pickle
+import json
 connector =IQ_Option("ww.bingonemo@gmail.com","JF*#3C5va&_NDqy")
 connector.connect()
 
@@ -41,10 +41,10 @@ use_token_for_commission=False
 while True:
     try:
         try:
-            data = pickle.load(open('data.pkl', 'rb'))
+            data = json.load(open('data.json', 'rb'))
         except:
             data = []
-            pickle.dump(data, open('data.pkl', 'bw'))
+            json.dump(data, open('data.json', 'bw'))
         logger.info('w1')
         while True:
             if connector.check_connect() == False:
@@ -65,29 +65,27 @@ while True:
                 candles = list(connector.get_realtime_candles(f[:6], 5).values())
 
                 # Exams
-                s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
-                ms = sum([1 for c in candles if c.get('max') > candles[-1].get('close')])
                 buying_time = time.time()
-                buying_price = candles[-1].get('close')
-                forex_name = f
                 # Exams
 
                 check, id = connector.buy_digital_spot(f, 1, 'call', 1)
                 if check == True:
-                    checklist.append((id,s,ms, buying_time, buying_price, f)) # add exam
+                    checklist.append((id, buying_time, candles)) # add exam
 
             for chl in checklist:
                 sst = time.time()
                 while time.time() - sst < 120:
                     check, win = connector.check_win_digital_v2(chl[0])
                     if check == True:
-                        connector.start_candles_stream(f[:6], 5, 600) # loop warning
-                        candles = list(connector.get_realtime_candles(f[:6], 5).values())
-                        data.append(((win > 0), chl[1], chl[2], chl[3], time.time(), chl[4],
-                                    chl[5], (candles[-1].get('close') > chl[4]) )) # add exam
+                        data.append({'Outcome' : (win > 0),
+                                     'Id' : chl[0],
+                                     'Buying_time': chl[1],
+                                     'Closing_time': time.time(),
+                                     'Candles':  chl[3]
+                                    }) # add exam
                         break
             logger.info(checklist)
-        pickle.dump(data, open('data.pkl', 'bw'))
+        json.dump(data, open('data.json', 'bw'))
         logger.info(len(data))
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()

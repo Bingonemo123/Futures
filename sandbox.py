@@ -1,8 +1,20 @@
-import numpy as np
+import pickle 
+import json
+data = pickle.load(open("data.pkl", 'rb'))
+sandwitch = []
+
+for d in data:
+    refernece = ['Outcome', 'Sum_close', 'Sum_max', 'Buying_time',
+                'Closing_time', 'Buying_price', 'Name', 'Outcome_prediction']
+    cdict = {}
+    for i in range(len(d)):
+        cdict[refernece[i]] = d[i]
+
+    sandwitch.append(cdict)
 
 
-p = np.ndarray(None)
-for k in range(10):
-    p[k][1] = 8
 
-print(p)
+
+
+with open('Json/data.json', 'w') as json_file:
+    json.dump(sandwitch, json_file)

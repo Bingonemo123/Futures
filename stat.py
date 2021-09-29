@@ -13,7 +13,8 @@ with left_column:
     st.write("# Real Data")
     st.write('number of data:' + str(len(real_data)))
     page = Stat(real_data)
-    # page.transpose(2)
+    page.transpose(7)
+    print(page.real_data)
     page.calculations()
     page.strmlt()
 
