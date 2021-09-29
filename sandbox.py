@@ -1,20 +1,10 @@
-import pickle 
+from iqoptionapi.stable_api import IQ_Option
+# import Internet_protocols
+
 import json
-data = pickle.load(open("data.pkl", 'rb'))
-sandwitch = []
-
-for d in data:
-    refernece = ['Outcome', 'Sum_close', 'Sum_max', 'Buying_time',
-                'Closing_time', 'Buying_price', 'Name', 'Outcome_prediction']
-    cdict = {}
-    for i in range(len(d)):
-        cdict[refernece[i]] = d[i]
-
-    sandwitch.append(cdict)
-
-
-
-
-
-with open('Json/data.json', 'w') as json_file:
-    json.dump(sandwitch, json_file)
+connector =IQ_Option("ww.bingonemo@gmail.com","JF*#3C5va&_NDqy")
+connector.connect()
+data = connector.get_digital_position(14824212618)
+print (data)
+with open('Json/digital_position_eample.json', 'w') as jsonfile: 
+    json.dump(data, jsonfile)

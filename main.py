@@ -41,10 +41,10 @@ use_token_for_commission=False
 while True:
     try:
         try:
-            data = json.load(open('data.json', 'rb'))
+            data = json.load(open('data.json', 'r'))
         except:
             data = []
-            json.dump(data, open('data.json', 'bw'))
+            json.dump(data, open('data.json', 'w'))
         logger.info('w1')
         while True:
             if connector.check_connect() == False:
@@ -84,7 +84,7 @@ while True:
                                     }) # add exam
                         break
             logger.info(checklist)
-        json.dump(data, open('data.json', 'bw'))
+        json.dump(data, open('data.json', 'w'))
         logger.info(len(data))
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
