@@ -61,8 +61,8 @@ while True:
         
             checklist = []
             for f in open_digits:
-                connector.start_candles_stream(f[:6], 5, 600) # loop warning
-                candles = list(connector.get_realtime_candles(f[:6], 5).values())
+                # connector.start_candles_stream(f[:6], 5, 600) # loop warning
+                # candles = list(connector.get_realtime_candles(f[:6], 5).values())
 
                 # Exams
                 buying_time = time.time()
@@ -70,7 +70,7 @@ while True:
 
                 check, id = connector.buy_digital_spot(f, 1, 'call', 1)
                 if check == True:
-                    checklist.append((id, buying_time, candles)) # add exam
+                    checklist.append((id, buying_time)) # add exam
 
             for chl in checklist:
                 sst = time.time()
@@ -80,8 +80,7 @@ while True:
                         data.append({'Outcome' : (win > 0),
                                      'Id' : chl[0],
                                      'Buying_time': chl[1],
-                                     'Closing_time': time.time(),
-                                     'Candles':  chl[3]
+                                     'Closing_time': time.time()
                                     }) # add exam
                         break
             logger.info(checklist)
