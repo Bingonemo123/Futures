@@ -112,7 +112,7 @@ while True:
                             }
                 if str(s) in recept:
                     var_1 = 10000
-                    if balance < 1 or ( datetime.datetime.now().weekday() == 0 and datetime.datetime.now().hour == 0):
+                    if balance < 1 or datetime.datetime.now().hour == 0:
                         connector.reset_practice_balance()
                     if balance % var_1 >= var_1/2 or balance < var_1:
                         bit = balance % var_1
