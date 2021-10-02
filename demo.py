@@ -5,9 +5,16 @@ import logging
 import time
 import sys
 import os
+import pathlib
 import pickle
 connector =IQ_Option("levanmikeladze123@gmail.com","591449588")
 connector.connect()
+
+'''----------------------------------------------------------------------------------------------'''
+if os.name == 'posix':
+    path = pathlib.PurePosixPath(os.path.abspath(__file__)).parent
+else:
+    path = pathlib.PureWindowsPath(os.path.abspath(__file__)).parent
 
 '''----------------------------------------------------------------------------------------------'''
 logger = logging.getLogger(__name__)
@@ -19,7 +26,7 @@ stream_handler.setLevel(logging.DEBUG)
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 """FileHandler"""
-rotatingfile_handler = logging.handlers.RotatingFileHandler('demomain.log', backupCount=5, maxBytes=1073741824)
+rotatingfile_handler = logging.handlers.RotatingFileHandler(path/'demomain.log', backupCount=5, maxBytes=1073741824)
 rotatingfile_handler.setLevel(logging.INFO)
 rotatingfile_handler.setFormatter(formatter)
 logger.addHandler(rotatingfile_handler)
