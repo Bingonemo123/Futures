@@ -6,6 +6,7 @@ import time
 import sys
 import os
 import pathlib
+import json
 import pickle
 connector =IQ_Option("levanmikeladze123@gmail.com","591449588")
 connector.connect()
@@ -22,7 +23,7 @@ logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 """StreamHandler"""
 stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.DEBUG) 
+stream_handler.setLevel(logging.DEBUG)
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 """FileHandler"""
@@ -61,10 +62,10 @@ logger.info('Start')
 while True:
     try:
         try:
-            data = pickle.load(open('demo_data.pkl', 'rb'))
+            data = json.load(open(path/'demo_data.json', 'r'))
         except:
             data = []
-            pickle.dump(data, open('demo_data.pkl', 'bw'))
+            json.dump(data, open(path/'demo_data.json', 'w'))
 
         logger.debug('w1')
         while True:
@@ -148,7 +149,7 @@ while True:
                         break
             if len(checklist) > 0:
                 logger.info(checklist)
-        pickle.dump(data, open('demo_data.pkl', 'bw'))
+        json.dump(data, open(path/'demo_data.json', 'w'))
         logger.debug(len(data))
         logger.debug(found_s)
     except Exception as e:

@@ -5,10 +5,16 @@ import logging
 import time
 import sys
 import os
+import pathlib
 import json
 connector =IQ_Option("ww.bingonemo@gmail.com","JF*#3C5va&_NDqy")
 connector.connect()
 
+'''----------------------------------------------------------------------------------------------'''
+if os.name == 'posix':
+    path = pathlib.PurePosixPath(os.path.abspath(__file__)).parent
+else:
+    path = pathlib.PureWindowsPath(os.path.abspath(__file__)).parent
 '''----------------------------------------------------------------------------------------------'''
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -19,7 +25,7 @@ stream_handler.setLevel(logging.DEBUG)
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 """FileHandler"""
-rotatingfile_handler = logging.handlers.RotatingFileHandler('main.log', backupCount=5, maxBytes=1073741824)
+rotatingfile_handler = logging.handlers.RotatingFileHandler(path/'main.log', backupCount=5, maxBytes=1073741824)
 rotatingfile_handler.setLevel(logging.DEBUG)
 rotatingfile_handler.setFormatter(formatter)
 logger.addHandler(rotatingfile_handler)
