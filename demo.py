@@ -57,6 +57,9 @@ def get_custom_balance(timeout = 60):
     for balance in connector.api.balances_raw["msg"]:
             if balance["id"] == connector.get_balance_id():
                 return balance["amount"]
+#----------------------------------------------------------------------------#
+hour_store = None
+#----------------------------------------------------------------------------#
 
 logger.info('Start')
 while True:
@@ -152,6 +155,9 @@ while True:
         json.dump(data, open(path/'demo_data.json', 'w'))
         logger.debug(len(data))
         logger.debug(found_s)
+        if hour_store != datetime.datetime.now().hour:
+            hour_store = datetime.datetime.now().hour
+            logger.info('Hour remainder ' + str(hour_store))
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
