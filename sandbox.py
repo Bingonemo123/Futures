@@ -1,13 +1,12 @@
-import pathlib
-import os
-import datetime
+def timeout(timeout):
+    def deco(func):
+        return func.__name__
+    return deco
 
 
-'''----------------------------------------------------------------------------------------------'''
-if os.name == 'posix':
-    path = pathlib.PurePosixPath(os.path.abspath(__file__)).parent
-else:
-    path = pathlib.PureWindowsPath(os.path.abspath(__file__)).parent
+@timeout(3)
+def h ():
+    return 'JJf'
 
 
-print(path/'demomain.log')
+print(h)

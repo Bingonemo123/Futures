@@ -7,7 +7,8 @@ import sys
 import os
 import pathlib
 import json
-import pickle
+from threading import Thread
+import functools
 connector =IQ_Option("levanmikeladze123@gmail.com","591449588")
 connector.connect()
 
@@ -60,6 +61,39 @@ def get_custom_balance(timeout = 60):
 #----------------------------------------------------------------------------#
 hour_store = None
 #----------------------------------------------------------------------------#
+def timeout(timeout):
+    def deco(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            res = [Exception('function [%s] timeout [%s seconds] exceeded!' % (func.__name__, timeout))]
+            def newFunc():
+                try:
+                    res[0] = func(*args, **kwargs)
+                except Exception as e:
+                    res[0] = e
+            t = Thread(target=newFunc)
+            t.daemon = True
+            try:
+                t.start()
+                t.join(timeout)
+            except Exception as je:
+                print ('error starting thread')
+                raise je
+            ret = res[0]
+            if isinstance(ret, BaseException):
+                raise ret
+            return ret
+        return wrapper
+    return deco
+
+@timeout(120)
+def custom_candles (f):
+    connector.start_candles_stream(f[:6], 5, 600)
+    candles = list(connector.get_realtime_candles(f[:6], 5).values())
+    return candles
+#----------------------------------------------------------------------------#
+
+
 
 logger.info('Start')
 while True:
@@ -94,8 +128,10 @@ while True:
                 balance = get_custom_balance()
                 if balance == None:
                     continue
-                connector.start_candles_stream(f[:6], 5, 600)
-                candles = list(connector.get_realtime_candles(f[:6], 5).values())
+                try:
+                    candles = custom_candles(f)
+                except:
+                    continue
                 s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
                 if s not in found_s:
                     found_s.append(s)

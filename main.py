@@ -72,11 +72,12 @@ while True:
 
                 # Exams
                 buying_time = time.time()
+                otc = (f[-3:] == 'OTC')
                 # Exams
 
                 check, id = connector.buy_digital_spot(f, 1, 'call', 1)
                 if check == True:
-                    checklist.append((id, buying_time)) # add exam
+                    checklist.append((id, buying_time, otc)) # add exam
 
             for chl in checklist:
                 sst = time.time()
@@ -87,6 +88,7 @@ while True:
                         data.append({'Outcome' : (win > 0),
                                      'Id' : chl[0],
                                      'Buying_time': chl[1],
+                                     'OTC': chl[2],
                                      'Closing_time': time.time(),
                                      'Position_Id': position_id
                                     }) # add exam

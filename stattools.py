@@ -122,6 +122,7 @@ class Stat:
         st.write('Abs %: ' + str(self.ab * 100))
         st.write('% of abs % being above 62.5 % :' + str((1 - stats.beta.cdf(0.625, self.sow + 1, self.soto-self.sow + 1))* 100))
         # st.write('Expected value : ' + str( EV(sow/soto, soto)))
+        # st.line_chart(pd.DataFrame.from_dict(self.count_data, orient='index'))
 
         '''
         if 'chart_data' not in  st.session_state:
