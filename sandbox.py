@@ -1,12 +1,3 @@
-def timeout(timeout):
-    def deco(func):
-        return func.__name__
-    return deco
+import datetime
 
-
-@timeout(3)
-def h ():
-    return 'JJf'
-
-
-print(h)
+print(datetime.datetime.now().date())

@@ -60,6 +60,7 @@ def get_custom_balance(timeout = 60):
                 return balance["amount"]
 #----------------------------------------------------------------------------#
 hour_store = None
+date_store = None
 #----------------------------------------------------------------------------#
 def timeout(timeout):
     def deco(func):
@@ -125,6 +126,8 @@ while True:
         
             checklist = []
             for f in open_digits:
+                if f[-3:] != 'OTC':
+                    continue
                 balance = get_custom_balance()
                 if balance == None:
                     continue
@@ -158,9 +161,12 @@ while True:
                             "483": "put"
                             }
                 if str(s) in recept:
-                    var_1 = 10000
+                    if date_store != datetime.datetime.now().date():
+                        date_store = datetime.datetime.now().date()
+                        var_1 = get_custom_balance()
                     if balance < 1 or datetime.datetime.now().hour == 0:
                         connector.reset_practice_balance()
+                        var_1 = get_custom_balance()
                     if balance % var_1 >= var_1/2 or balance < var_1:
                         bit = balance % var_1
                     else:
@@ -194,6 +200,8 @@ while True:
         if hour_store != datetime.datetime.now().hour:
             hour_store = datetime.datetime.now().hour
             logger.info('Hour remainder ' + str(hour_store))
+
+        
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
