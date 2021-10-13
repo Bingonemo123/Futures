@@ -1,37 +1,19 @@
 from iqoptionapi.stable_api import IQ_Option
 import datetime
-import logging.handlers
 import logging
 import time
 import sys
 import os
-import pathlib
 import json
 from threading import Thread
 import functools
+import log_protocols
 connector =IQ_Option("levanmikeladze123@gmail.com","591449588")
 connector.connect()
 
 '''----------------------------------------------------------------------------------------------'''
-if os.name == 'posix':
-    path = pathlib.PurePosixPath(os.path.abspath(__file__)).parent
-else:
-    path = pathlib.PureWindowsPath(os.path.abspath(__file__)).parent
-
-'''----------------------------------------------------------------------------------------------'''
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-"""StreamHandler"""
-stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.DEBUG)
-stream_handler.setFormatter(formatter)
-logger.addHandler(stream_handler)
-"""FileHandler"""
-rotatingfile_handler = logging.handlers.RotatingFileHandler(path/'demomain.log', backupCount=5, maxBytes=1073741824)
-rotatingfile_handler.setLevel(logging.INFO)
-rotatingfile_handler.setFormatter(formatter)
-logger.addHandler(rotatingfile_handler)
+logger = log_protocols.Archlog
+path = log_protocols.Archpath
 #----------------------------------------------------------------------------#
 connector.change_balance("PRACTICE")
 instrument_type="digital"
@@ -58,9 +40,7 @@ def get_custom_balance(timeout = 60):
     for balance in connector.api.balances_raw["msg"]:
             if balance["id"] == connector.get_balance_id():
                 return balance["amount"]
-#----------------------------------------------------------------------------#
-hour_store = None
-date_store = None
+
 #----------------------------------------------------------------------------#
 def timeout(timeout):
     def deco(func):
@@ -97,7 +77,8 @@ def custom_candles (f):
 
 
 logger.info('Start')
-while True:
+# while True:
+for one in [True]:
     try:
         try:
             data = json.load(open(path/'demo_data.json', 'r'))
@@ -161,10 +142,9 @@ while True:
                             "483": "put"
                             }
                 if str(s) in recept:
-                    if date_store != datetime.datetime.now().date():
-                        date_store = datetime.datetime.now().date()
+                    if datetime.datetime.now().hour == 0:
                         var_1 = get_custom_balance()
-                    if balance < 1 or datetime.datetime.now().hour == 0:
+                    if balance < 1:
                         connector.reset_practice_balance()
                         var_1 = get_custom_balance()
                     if balance % var_1 >= var_1/2 or balance < var_1:
@@ -197,9 +177,8 @@ while True:
         json.dump(data, open(path/'demo_data.json', 'w'))
         logger.debug(len(data))
         logger.debug(found_s)
-        if hour_store != datetime.datetime.now().hour:
-            hour_store = datetime.datetime.now().hour
-            logger.info('Hour remainder ' + str(hour_store))
+        if datetime.datetime.now().minute == 0:
+            logger.info('Hour remainder ' + str(datetime.datetime.now().hour))
 
         
     except Exception as e:

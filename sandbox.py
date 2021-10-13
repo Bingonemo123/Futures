@@ -1,3 +1,4 @@
 import datetime
 
-print(datetime.datetime.now().date())
+
+print(datetime.datetime.now().minute)
