@@ -76,7 +76,7 @@ def custom_candles (f):
 
 
 
-logger.info('Start')
+logger.debug('Start')
 # while True:
 for one in [True]:
     try:
