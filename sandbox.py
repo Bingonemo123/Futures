@@ -1,4 +1,4 @@
-import datetime
+import inspect
 
-
-print(datetime.datetime.now().minute)
+hh = inspect.getmodulename(inspect.stack()[-1][1])
+print(hh)
