@@ -1,21 +1,27 @@
-if __name__ == '__main__':
-    import processrunner
-else:
+from multiprocessing import Process, Value
+import log_protocols
+logger = log_protocols.Archlog
+path = log_protocols.Archpath
+
+    
+def that(var_1):
+
     from iqoptionapi.stable_api import IQ_Option
     import datetime
     import time
     import sys
     import os
     import json
+    import log_protocols
     from threading import Thread
     import functools
-    import log_protocols
+
     connector =IQ_Option("levanmikeladze123@gmail.com","591449588")
     connector.connect()
 
     '''----------------------------------------------------------------------------------------------'''
     logger = log_protocols.Archlog
-    path = log_protocols.Archpath
+    path = log_protocols.Archpath    
     #----------------------------------------------------------------------------#
     connector.change_balance("PRACTICE")
     instrument_type="digital"
@@ -144,15 +150,15 @@ else:
                                 "483": "put"
                                 }
                     if str(s) in recept:
-                        if datetime.datetime.now().hour == 0:
-                            var_1 = get_custom_balance()
+                        if datetime.datetime.now().hour == 0 or var_1.value == 0:
+                            var_1.value = get_custom_balance()
                         if balance < 1:
                             connector.reset_practice_balance()
-                            var_1 = get_custom_balance()
-                        if balance % var_1 >= var_1/2 or balance < var_1:
-                            bit = balance % var_1
+                            var_1.value = get_custom_balance()
+                        if balance % var_1.value >= var_1.value/2 or balance < var_1.value:
+                            bit = balance % var_1.value
                         else:
-                            bit = var_1
+                            bit = var_1.value
                         partition = 5
                         if bit/partition < 1:
                             bit = 1
@@ -189,3 +195,12 @@ else:
             logger.exception(str(e))
             logger.exception([exc_type, fname, exc_tb.tb_lineno])
             time.sleep(60*3)
+
+
+if __name__ == '__main__':
+    logger.info('High level entry')
+    num = Value('d', 0.0)
+    while True:
+        p = Process(target=that, args=(num,))
+        p.start()
+        p.join(timeout= 15 * 60)
