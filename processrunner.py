@@ -19,5 +19,5 @@ if __name__ != '__main__':
 
         Process = multiprocessing.Process(target=main)
         Process.start()
-        Process.join(timeout= 11)
+        Process.join(timeout= 15 * 60)
 
