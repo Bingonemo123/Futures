@@ -88,6 +88,12 @@ def that(var_1):
     # while True:
     for one in [True]:
         try:
+            if datetime.datetime.now().minute == 0:
+                logger.info('Hour remainder ' + str(datetime.datetime.now().hour))
+             
+            if datetime.datetime.now().hour > 6 and datetime.datetime.now().hour < 11:
+                continue
+            
             try:
                 data = json.load(open(path/'demo_data.json', 'r'))
             except:
@@ -155,6 +161,10 @@ def that(var_1):
                         if balance < 1:
                             connector.reset_practice_balance()
                             var_1.value = get_custom_balance()
+
+                        if balance > 5 * var_1.value:
+                            break
+                        
                         if balance % var_1.value >= var_1.value/2 or balance < var_1.value:
                             bit = balance % var_1.value
                         else:
@@ -172,7 +182,8 @@ def that(var_1):
                             balance = get_custom_balance()
                             if balance == None:
                                 continue
-                            logger.info(recept[str(s)] + ' on ' + f + ' ' + str(id) + ' ' + str(s) + ' ' + str(balance)+'$')
+                            logger.info(recept[str(s)] + ' on ' + f + ' ' + str(id) + ' ' + str(s) + ' ' + str(balance)+'$' + ' ' +
+                            str(var_1.value))
                 for chl in checklist:
                     sst = time.time()
                     while time.time() - sst < 120:
@@ -185,8 +196,6 @@ def that(var_1):
             json.dump(data, open(path/'demo_data.json', 'w'))
             logger.debug(len(data))
             logger.debug(found_s)
-            if datetime.datetime.now().minute == 0:
-                logger.info('Hour remainder ' + str(datetime.datetime.now().hour))
 
             
         except Exception as e:
