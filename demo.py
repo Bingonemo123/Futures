@@ -93,7 +93,7 @@ def that(var_1):
              
             if datetime.datetime.now().hour > 6 and datetime.datetime.now().hour < 11:
                 continue
-            
+
             try:
                 data = json.load(open(path/'demo_data.json', 'r'))
             except:
@@ -178,10 +178,10 @@ def that(var_1):
                             bit = bit/partition
                         check, id = connector.buy_digital_spot(f, bit, recept[str(s)], 1)
                         if check == True:
-                            checklist.append((id,s))
                             balance = get_custom_balance()
                             if balance == None:
                                 continue
+                            checklist.append((id,s, balance))
                             logger.info(recept[str(s)] + ' on ' + f + ' ' + str(id) + ' ' + str(s) + ' ' + str(balance)+'$' + ' ' +
                             str(var_1.value))
                 for chl in checklist:
@@ -189,7 +189,14 @@ def that(var_1):
                     while time.time() - sst < 120:
                         check, win = connector.check_win_digital_v2(chl[0])
                         if check == True:
-                            data.append(((win > 0), chl[1]))
+                            position_id = connector.get_digital_position(chl[0]).get('msg').get('position').get('id')
+                            data.append({'Outcome' : (win > 0),
+                                     'Id' : chl[0],
+                                     'Sum': chl[1],
+                                     'Balance': chl[2],
+                                     'Closing_time': time.time(),
+                                     'Position_Id': position_id
+                                    }) # add exam)
                             break
                 if len(checklist) > 0:
                     logger.info(checklist)
