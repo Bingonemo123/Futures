@@ -95,6 +95,7 @@ def that(var_1):
                 if get_custom_balance() < 10000:
                     connector.reset_practice_balance()
                     logger.info('Balance reset')
+                time.sleep(10* 60)
                 continue
 
             try:
