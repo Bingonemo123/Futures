@@ -91,7 +91,7 @@ def that(var_1):
             if datetime.datetime.now().minute == 0:
                 logger.info('Hour remainder ' + str(datetime.datetime.now().hour))
              
-            if datetime.datetime.now().hour > 6 and datetime.datetime.now().hour < 11:
+            if datetime.datetime.now().hour > 6 and datetime.datetime.now().hour < 23:
                 if get_custom_balance() < 10000:
                     connector.reset_practice_balance()
                     logger.info('Balance reset')
