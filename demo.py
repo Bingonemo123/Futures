@@ -94,6 +94,7 @@ def that(var_1):
             if datetime.datetime.now().hour > 6 and datetime.datetime.now().hour < 11:
                 if get_custom_balance() < 10000:
                     connector.reset_practice_balance()
+                    logger.info('Balance reset')
                 continue
 
             try:
@@ -141,6 +142,7 @@ def that(var_1):
                             var_1.value = get_custom_balance()
                         if balance < 1:
                             connector.reset_practice_balance()
+                            logger.info('Balance reset')
                             var_1.value = get_custom_balance()
 
                         if balance > 5 * var_1.value:
