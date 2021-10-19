@@ -160,7 +160,7 @@ def that(var_1):
                             bit = 20000
                         else:
                             bit = bit/partition
-                        check, id = connector.buy_digital_spot(f, bit, recept[str(s)], 1)
+                        check, id = connector.buy_digital_spot(f, bit, recept[s], 1)
                         if check == True:
                             balance = get_custom_balance()
                             if balance == None:
