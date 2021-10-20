@@ -142,6 +142,7 @@ def that(var_1):
                     if s in recept:
                         var_1.value = get_custom_balance()
                         if var_1.value == 0:
+                            var_1.value = get_custom_balance()
                         if balance < 1:
                             connector.reset_practice_balance()
                             logger.info('Balance reset')
