@@ -95,6 +95,7 @@ def that(var_1):
                 if get_custom_balance() < 10000:
                     connector.reset_practice_balance()
                     logger.info('Balance reset')
+                    var_1.value = get_custom_balance()
                 time.sleep(10* 60)
                 continue
 
@@ -139,7 +140,7 @@ def that(var_1):
                         found_s.append(s)
                     recept = {475: 'call', 548: 'call', 308: 'call', 116: 'put', 182: 'call', 427: 'call', 310: 'put', 407: 'put', 204: 'call', 259: 'put', 341: 'call', 61: 'call', 553: 'put', 112: 'put', 442: 'put', 170: 'put', 378: 'call', 394: 'call', 342: 'put', 141: 'put', 161: 'call', 91: 'put', 57: 'put', 228: 'put', 134: 'call', 360: 'put'}
                     if s in recept:
-                        if datetime.datetime.now().hour == 0 or var_1.value == 0:
+                        if var_1.value == 0:
                             var_1.value = get_custom_balance()
                         if balance < 1:
                             connector.reset_practice_balance()
