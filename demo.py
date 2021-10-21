@@ -147,7 +147,7 @@ def that(var_1):
                             logger.info('Balance reset')
                             var_1.value = get_custom_balance()
 
-                        if balance > 5 * var_1.value:
+                        if balance > 2 * var_1.value:
                             break
                         
                         if balance % var_1.value >= var_1.value/2 or balance < var_1.value:
