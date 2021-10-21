@@ -6,7 +6,6 @@ def win_lose(p, w, n, Bstart, t):
     lose = 0
     for c in tqdm.tqdm(range(t)):
         B = Bstart
-        k = 1
         while True:
             if B < 1:
                 lose += 1
@@ -24,8 +23,8 @@ def win_lose(p, w, n, Bstart, t):
                 B += w*bet
             else:
                 B -= bet
-            k += 1
-    return (win, lose)
+
+    return ((p, w, n, Bstart, t), (win, lose), (win/t)*100)
 
 
-print(win_lose(0.5, 0.6, 5, 10000, 100000))
+print(win_lose(0.55, 0.95, 5, 10000, 100000))
