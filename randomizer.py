@@ -194,8 +194,7 @@ def that():
 
 if __name__ == '__main__':
     logger.info('High level entry')
-    num = Value('d', 0.0)
     while True:
-        p = Process(target=that, args=(num,))
+        p = Process(target=that)
         p.start()
         p.join(timeout= 15 * 60)
