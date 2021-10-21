@@ -162,7 +162,7 @@ def that():
                             if balance == None:
                                 continue
                             checklist.append((id,s, balance))
-                            logger.info(recept[s] + ' on ' + f + ' ' + str(id) + ' ' + str(s) + ' ' + str(balance)+'$' + ' ' + str(var_1.value))
+                            logger.info(recept[s] + ' on ' + f + ' ' + str(id) + ' ' + str(s) + ' ' + str(balance)+'$' )
                 for chl in checklist:
                     sst = time.time()
                     while time.time() - sst < 120:
