@@ -27,4 +27,4 @@ def win_lose(p, w, n, Bstart, t):
     return ((p, w, n, Bstart, t), (win, lose), (win/t)*100)
 
 
-print(win_lose(0.5, 0.95, 5, 10000, 100000))
+print(win_lose(0.5, 1.1, 5, 10000, 100000))

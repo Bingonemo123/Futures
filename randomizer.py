@@ -156,7 +156,37 @@ def that():
                             bit = 20000
                         else:
                             bit = bit/partition
-                        check, id = connector.buy_digital_spot(f, bit, recept[s], 1)
+
+                        duration=1#minute 1 or 5
+                        connector.subscribe_strike_list(f,duration)
+                        #get strike_list
+                        strikedata=connector.get_realtime_strike_list(f, duration)
+                        mprice = None
+                        mid = None
+                        side = recept[s]
+                        if side == 'call':
+                            for price in strikedata:
+                                if strikedata[price][side]['profit'] != None:
+                                    if strikedata[price][side]['profit'] > 100:
+                                        if mprice != None:
+                                            if float(price) < mprice:
+                                                mprice = float(price)
+                                                mid = strikedata[price][side]['id']
+                                        else:
+                                            mprice = float(price)
+                                            mid = strikedata[price][side]['id']
+                        else:
+                            for price in strikedata:
+                                if strikedata[price][side]['profit'] != None:
+                                    if strikedata[price][side]['profit'] > 100:
+                                        if mprice != None:
+                                            if float(price) > mprice:
+                                                mprice = float(price)
+                                                mid = strikedata[price][side]['id']
+                                        else:
+                                            mprice = float(price)
+                                            mid = strikedata[price][side]['id']
+                        check, id = connector.buy_digital(bit, mid)
                         if check == True:
                             balance = get_custom_balance()
                             if balance == None:
