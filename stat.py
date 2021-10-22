@@ -10,7 +10,7 @@ left_column, right_column = st.columns(2)
 
 with left_column:
     # real_data = json.load(open("data.json", 'r'))
-    real_data = pickle.load(open('getready.pkl', 'rb'))
+    real_data = pickle.load(open('getreadyfull.pkl', 'rb'))
     st.write("# Real Data")
     st.write('number of data:' + str(len(real_data)))
     page = Stat(real_data)

@@ -157,13 +157,13 @@ def that():
                         else:
                             bit = bit/partition
 
+                        side = recept[s]
                         duration=1#minute 1 or 5
                         connector.subscribe_strike_list(f,duration)
                         #get strike_list
                         strikedata=connector.get_realtime_strike_list(f, duration)
                         mprice = None
                         mid = None
-                        side = recept[s]
                         if side == 'call':
                             for price in strikedata:
                                 if strikedata[price][side]['profit'] != None:
@@ -187,7 +187,7 @@ def that():
                                             mprice = float(price)
                                             mid = strikedata[price][side]['id']
                         check, id = connector.buy_digital(bit, mid)
-                        if check == True:
+                        if check == True and id is not dict:
                             balance = get_custom_balance()
                             if balance == None:
                                 continue

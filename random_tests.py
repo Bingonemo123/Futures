@@ -1,52 +1,31 @@
-'''Sandbox for sporadic tests'''
+import json
+import collections
+from typing import Collection
+import tqdm
 
-from iqoptionapi.stable_api import IQ_Option
-import time
-import random
-Iq=IQ_Option("levanmikeladze123@gmail.com","591449588")
-Iq.connect()#connect to iqoption
-ACTIVES="AUDCAD"
-duration=1#minute 1 or 5
-amount=1
-Iq.subscribe_strike_list(ACTIVES,duration)
-#get strike_list
-data=Iq.get_realtime_strike_list(ACTIVES, duration)
-print("get strike data")
-print(data)
-"""data
-{'1.127100':
-    {  'call':
-            {   'profit': None,
-                'id': 'doEURUSD201811120649PT1MC11271'
-            },
-        'put':
-            {   'profit': 566.6666666666666,
-                'id': 'doEURUSD201811120649PT1MP11271'
-            }
-    }............
-}
-"""
-#get price list
-# price_list=list(data.keys())
-# #random choose Strategy
-# choose_price=price_list[random.randint(0,len(price_list)-1)]
-# #get instrument_id
-# instrument_id=data[choose_price]["call"]["id"]
-# #get profit
-# profit=data[choose_price]["call"]["profit"]
-side = 'call'
-mprice = None
-mid = None
-for price in data:
-    if data[price][side]['profit'] != None:
-        if data[price][side]['profit'] > 100:
-            if mprice != None:
-                if float(price) < mprice:
-                    mprice = float(price)
-                    mid = data[price][side]['id']
-            else:
-                mprice = float(price)
-                mid = data[price][side]['id']
+with open('data.json', 'r') as f:
+    data = json.load(f)
 
-print(mprice, mid, data[str(mprice)])
 
+division = 1
+while True:
+    interval = (data[-1].get('Closing_time') - data[0].get('Closing_time'))/division
+
+
+    bar = tqdm.tqdm(range(division), leave=False)
+    for s in bar:
+        bar.set_description("Processing %s" % division)
+        groups = {x: [] for x in range(s+1)} # s + 1 
+        for p in data:
+            groups[((p.get('Closing_time') - data[0].get('Closing_time')) // interval )%(s+1)].append(p.get('Outcome'))
+
+        C = {y:collections.Counter(groups[y])[True] for y in groups}
+        for z in C:
+            try:
+                if C[z]/len(groups[z]) > 0.6:
+                    bar.write(division,s,  z, C[z]/len(groups[z]), interval, C[z], len(groups[z]))
+            except ZeroDivisionError:
+                pass
+    division += 1
+
+##|##|##|##|##
