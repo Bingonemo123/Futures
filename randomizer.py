@@ -187,7 +187,7 @@ def that():
                                             mprice = float(price)
                                             mid = strikedata[price][side]['id']
                         check, id = connector.buy_digital(bit, mid)
-                        if check == True and id is not dict:
+                        if check == True and type(id) is not dict:
                             balance = get_custom_balance()
                             if balance == None:
                                 continue
