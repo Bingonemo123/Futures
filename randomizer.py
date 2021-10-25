@@ -137,7 +137,7 @@ def that():
                     s = sum([1 for c in candles if c.get('close') > candles[-1].get('close')])
                     if s not in found_s:
                         found_s.append(s)
-                    recept = {475: 'call', 548: 'call', 308: 'call', 116: 'put', 182: 'call', 427: 'call', 310: 'put', 407: 'put', 204: 'call', 259: 'put', 341: 'call', 61: 'call', 553: 'put', 112: 'put', 442: 'put', 170: 'put', 378: 'call', 394: 'call', 342: 'put', 141: 'put', 161: 'call', 91: 'put', 57: 'put', 228: 'put', 134: 'call', 360: 'put'}
+                    recept = {98: "put",129: "put",156: "call",206: "call",213: "put",220: "put",227: "put",99: "call",238: "put",266: "put",316: "put",330: "call",345: "put",370: "put",409: "put",250: "put",427: "put",482: "call",483: "put", 401: "put" }
                     if s in recept:
                     
                         if balance < 1:
