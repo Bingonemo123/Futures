@@ -1,28 +1,71 @@
-import tensorflow as tf
-print("TensorFlow version:", tf.__version__)
+import json
+import tqdm
+import functools
+from threading import Thread
+import os 
+import pandas as pd
 
-mnist = tf.keras.datasets.mnist
+from iqoptionapi.stable_api import IQ_Option
+connector =IQ_Option("ww.bingonemo@gmail.com","JF*#3C5va&_NDqy")
+connector.connect()
 
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-x_train, x_test = x_train / 255.0, x_test / 255.0
+real_data = json.load(open("data.json", 'r'))
 
-model = tf.keras.models.Sequential([
-  tf.keras.layers.Flatten(input_shape=(28, 28)),
-  tf.keras.layers.Dense(128, activation='relu'),
-  tf.keras.layers.Dropout(0.2),
-  tf.keras.layers.Dense(10)
-])
+def timeout(timeout):
+    def deco(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            res = [Exception('function [%s] timeout [%s seconds] exceeded!' % (func.__name__, timeout))]
+            def newFunc():
+                try:
+                    res[0] = func(*args, **kwargs)
+                except Exception as e:
+                    res[0] = e
+            t = Thread(target=newFunc)
+            t.daemon = True
+            try:
+                t.start()
+                t.join(timeout)
+            except Exception as je:
+                print ('error starting thread')
+                raise je
+            ret = res[0]
+            if isinstance(ret, BaseException):
+                raise ret
+            return ret
+        return wrapper
+    return deco
 
-predictions = model(x_train[:1]).numpy()
+@timeout(120)
+def custom_candles (a, b, c, d):
+    return list(connector.get_candles(a, b, c, d))
 
-tf.nn.softmax(predictions).numpy()
+last_position_id = 14246305191
+skip=False
 
-loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+for r in tqdm.tqdm(real_data):
+    if r.get('Position_Id') != None:
+        if r.get('Position_Id') == last_position_id:
+            skip = True
+            continue
 
-model.compile(optimizer='adam',
-              loss=loss_fn,
-              metrics=['accuracy'])
+        if skip:
+            while True:
+                if connector.check_connect() == False:
+                    check,reason=connector.connect()
+                else:
+                    break
+            h = connector.get_digital_position_by_position_id(r.get('Position_Id'))
 
-model.fit(x_train, y_train, epochs=5)
+            opening_time = h.get('msg').get('position').get('open_quote_time_ms')
+            candles = list(connector.get_candles(h.get('msg').get('position').get('instrument_underlying')[:6], 5, 600, opening_time/1000))
+            r['Candles'] = candles
+            df = pd.DataFrame.from_dict(r, orient='index', columns=['Data'])
 
-model.evaluate(x_test,  y_test, verbose=2)
+            # if file does not exist write header 
+            if not os.path.isfile('Json/tensordata.csv'):
+                df.to_csv('Json/tensordata.csv', header='column_names')
+            else: # else it exists so append without writing the header
+                df.to_csv('Json/tensordata.csv', mode='a', header=False, chunksize=10000)
+
+

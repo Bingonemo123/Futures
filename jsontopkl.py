@@ -1,8 +1,7 @@
 import json
-import tqdm
 import pickle
 
-
+import tqdm
 from iqoptionapi.stable_api import IQ_Option
 
 connector =IQ_Option("ww.bingonemo@gmail.com","JF*#3C5va&_NDqy")
